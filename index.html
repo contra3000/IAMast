@@ -3,556 +3,639 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dossier Ejecutivo: IA en Operaciones Aéreas</title>
-    <!-- Tailwind CSS (via CDN) -->
+    <title>Business Case: IA en Operaciones Aéreas</title>
+    
+    <!-- Fuentes modernas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
+    
+    <!-- Iconos -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        aero: {
+                            50: '#f0f4f8',
+                            100: '#d9e2ec',
+                            800: '#102a43',
+                            900: '#0b1c2c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            overflow: hidden; /* Prevent body scroll, handle in main */
-        }
-        
-        /* Smooth transitions */
-        .fade-in {
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            background-color: #f8fafc;
+            overflow-x: hidden;
         }
 
-        /* Sidebar item hover effects */
-        .sidebar-item {
-            transition: all 0.2s ease;
-        }
-        .sidebar-item.active {
-            background-color: #2563eb; /* blue-600 */
-            color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .sidebar-item:not(.active):hover {
-            background-color: #1e293b; /* slate-800 */
-            color: #e2e8f0; /* slate-200 */
+        /* Animaciones fluidas */
+        .slide-up {
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
-        /* Badge Styles */
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.6rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border-width: 1px;
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .badge-danger { background-color: #fee2e2; color: #991b1b; border-color: #fecaca; }
-        .badge-warning { background-color: #fef3c7; color: #92400e; border-color: #fde68a; }
-        .badge-success { background-color: #d1fae5; color: #065f46; border-color: #a7f3d0; }
-        .badge-info { background-color: #dbeafe; color: #1e40af; border-color: #bfdbfe; }
-        .badge-purple { background-color: #f3e8ff; color: #6b21a8; border-color: #e9d5ff; }
-        .badge-neutral { background-color: #f1f5f9; color: #1e293b; border-color: #e2e8f0; }
 
-        /* Table styles */
-        .table-row-hover:hover { background-color: #f8fafc; }
-        .table-row-recommended { background-color: #eff6ff; } /* blue-50 */
+        /* Estilos de tabla personalizados */
+        .glass-table th { background: rgba(241, 245, 249, 0.8); backdrop-filter: blur(4px); }
+        .glass-table tr { transition: background-color 0.2s ease; border-bottom: 1px solid #e2e8f0; }
+        .glass-table tr:hover { background-color: #f1f5f9; }
+
+        /* Botones de navegación */
+        .nav-btn {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(37,99,235,0.1) 0%, rgba(37,99,235,0) 100%);
+            border-left-color: #2563eb;
+            color: #1e3a8a;
+            font-weight: 700;
+        }
+
+        /* Barra de progreso animada */
+        .progress-bar-fill {
+            transition: width 1s ease-out;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="flex h-screen text-slate-800 antialiased selection:bg-blue-200">
 
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <aside class="w-72 bg-slate-900 text-slate-100 flex flex-col shadow-2xl z-10 flex-shrink-0">
-            <div class="p-6">
-                <div class="flex items-center space-x-3 mb-2">
-                    <div class="p-2 bg-blue-600 rounded-lg">
-                        <i data-lucide="plane" class="text-white w-6 h-6"></i>
-                    </div>
-                    <h1 class="text-xl font-bold leading-tight">AeroTech AI</h1>
+    <!-- Navegación Lateral Rediseñada -->
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col justify-between flex-shrink-0 z-20">
+        <div>
+            <!-- Header Logo -->
+            <div class="h-20 flex items-center px-6 border-b border-slate-100 mb-6">
+                <div class="w-10 h-10 bg-aero-900 rounded-xl flex items-center justify-center mr-3 shadow-md">
+                    <i data-lucide="plane-takeoff" class="text-white w-5 h-5"></i>
                 </div>
-                <p class="text-xs text-slate-400 font-medium tracking-wider uppercase mt-4">Dossier Estratégico</p>
+                <div>
+                    <h1 class="text-lg font-extrabold text-aero-900 tracking-tight">Aero<span class="text-blue-600">IA</span></h1>
+                    <p class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Business Case</p>
+                </div>
             </div>
-            
-            <nav class="flex-1 px-4 space-y-2 overflow-y-auto" id="sidebar-nav">
-                <!-- Navigation items will be injected here by JS -->
+
+            <!-- Menú -->
+            <nav class="flex flex-col gap-1 px-4" id="navigation-menu">
+                <!-- Generado por JS -->
             </nav>
-            
-            <div class="p-6 bg-slate-950/50">
-                <div class="flex items-center space-x-2 text-xs text-slate-400">
-                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
-                    <span>Uso Interno Confidencial</span>
-                </div>
-            </div>
-        </aside>
+        </div>
 
-        <!-- Main Content Area -->
-        <main class="flex-1 overflow-y-auto p-8 lg:p-12 relative" id="main-content">
-            <!-- Section content will be injected here by JS -->
+        <!-- Footer Sidebar -->
+        <div class="p-6 m-4 bg-slate-50 rounded-2xl border border-slate-100">
+            <div class="flex items-center gap-2 text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                <i data-lucide="info" class="w-4 h-4"></i> Estatus Actual
+            </div>
+            <div class="text-sm text-slate-700 font-medium">Fase: <span class="text-amber-600">Experimentación</span></div>
+            <div class="text-sm text-slate-700 font-medium">Meta: <span class="text-emerald-600">Frontier Firm</span></div>
+        </div>
+    </aside>
+
+    <!-- Área de Contenido Principal -->
+    <div class="flex-1 flex flex-col relative overflow-hidden bg-slate-50">
+        <!-- Header superior -->
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center px-10 z-10 sticky top-0 justify-between">
+            <h2 id="section-title" class="text-2xl font-bold text-slate-800">Cargando...</h2>
+            <div class="flex items-center gap-3 bg-blue-50 px-4 py-2 rounded-full border border-blue-100 text-blue-800 text-sm font-semibold">
+                <i data-lucide="target" class="w-4 h-4"></i> Objetivo: Disponibilidad de Flota
+            </div>
+        </header>
+
+        <!-- Contenedor scrolleable -->
+        <main class="flex-1 overflow-y-auto p-10">
+            <div id="content-area" class="max-w-6xl mx-auto pb-10">
+                <!-- Contenido dinámico -->
+            </div>
         </main>
     </div>
 
+    <!-- CÓDIGO JAVASCRIPT: Lógica y Datos -->
     <script>
-        // --- Data Definitions ---
-        const sections = [
-            { id: 'context', icon: 'activity', label: '1. Estrategia y Objetivos' },
-            { id: 'ecosystem', icon: 'brain-circuit', label: '2. Ecosistema y Datos' },
-            { id: 'opportunities', icon: 'layers', label: '3. Casos de Uso (RICE)' },
-            { id: 'roadmap', icon: 'trending-up', label: '4. Madurez y Roadmap' },
-            { id: 'recommendation', icon: 'check-circle-2', label: '5. Business Case y RACI' }
-        ];
+        // 1. Estructura de Datos (Basada en el documento)
+        const appData = {
+            sections: [
+                { id: 'estrategia', icon: 'compass', title: '1. Estrategia y Visión' },
+                { id: 'ecosistema', icon: 'server', title: '2. Ecosistema y Datos' },
+                { id: 'matriz', icon: 'grid', title: '3. Casos de Uso (RICE)' },
+                { id: 'roadmap', icon: 'route', title: '4. Madurez y Roadmap' },
+                { id: 'businesscase', icon: 'briefcase', title: '5. Business Case y RACI' }
+            ]
+        };
 
-        let activeSectionId = 'context';
+        // 2. Funciones Generadoras de Vistas (Componentes)
+        const Views = {
+            estrategia: () => `
+                <div class="slide-up">
+                    <p class="text-lg text-slate-600 mb-8 max-w-3xl leading-relaxed">
+                        Transición desde un estado de <strong>"Experimentación Ad Hoc"</strong> hacia el estatus de <strong>Frontier Firm</strong>. El objetivo central es que la IA asuma la gestión operativa del negocio para mitigar el riesgo de Aircraft on Ground (AOG).
+                    </p>
 
-        // --- HTML Content Generators ---
-
-        function generateContextHTML() {
-            return `
-                <div class="space-y-8 fade-in max-w-5xl mx-auto">
-                    <div>
-                        <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mb-4">
-                            <i data-lucide="rocket" class="w-4 h-4"></i>
-                            <span>Objetivo: Transición a Frontier Firm</span>
-                        </div>
-                        <h2 class="text-3xl font-bold text-slate-900">Estrategia y Objetivos de Negocio</h2>
-                        <p class="text-slate-500 mt-2 text-lg">Evolucionar de "Experimentación Ad Hoc" a la gestión operativa impulsada por IA.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-center items-center text-center">
-                            <div class="p-3 bg-blue-50 text-blue-600 rounded-xl mb-4">
-                                <i data-lucide="plane" class="w-8 h-8"></i>
+                    <!-- KPIs Principales -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <i data-lucide="plane" class="w-32 h-32"></i>
                             </div>
-                            <h3 class="text-4xl font-black text-slate-900">10</h3>
-                            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Aeronaves</p>
-                            <p class="text-xs text-slate-500 mt-2">La inoperatividad de una unidad es una pérdida crítica de margen.</p>
+                            <div class="text-blue-600 mb-4"><i data-lucide="plane" class="w-8 h-8"></i></div>
+                            <div class="text-5xl font-black text-slate-900 mb-2">10</div>
+                            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Aeronaves</h3>
+                            <p class="text-sm text-slate-600">Cada unidad inoperativa es una pérdida crítica de margen.</p>
                         </div>
 
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-center items-center text-center">
-                            <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl mb-4">
-                                <i data-lucide="users" class="w-8 h-8"></i>
+                        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <i data-lucide="users" class="w-32 h-32"></i>
                             </div>
-                            <h3 class="text-4xl font-black text-slate-900">70</h3>
-                            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Empleados</p>
-                            <p class="text-xs text-slate-500 mt-2">Requieren upskilling práctico para no quedar rezagados.</p>
+                            <div class="text-amber-500 mb-4"><i data-lucide="users" class="w-8 h-8"></i></div>
+                            <div class="text-5xl font-black text-slate-900 mb-2">70</div>
+                            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Empleados</h3>
+                            <p class="text-sm text-slate-600">Requieren upskilling práctico para evitar rezago.</p>
                         </div>
 
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-center items-center text-center">
-                            <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl mb-4">
-                                <i data-lucide="timer" class="w-8 h-8"></i>
+                        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+                            <div class="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <i data-lucide="trending-down" class="w-32 h-32"></i>
                             </div>
-                            <h3 class="text-4xl font-black text-slate-900">-40%</h3>
-                            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Carga Administrativa</p>
-                            <p class="text-xs text-slate-500 mt-2">Reducción esperada en procesos de RRHH y operaciones.</p>
+                            <div class="text-emerald-500 mb-4"><i data-lucide="timer" class="w-8 h-8"></i></div>
+                            <div class="text-5xl font-black text-slate-900 mb-2">-40%</div>
+                            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Carga Administrativa</h3>
+                            <p class="text-sm text-slate-600">Objetivo en RRHH y operaciones formativas.</p>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mt-8">
-                        <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center">
-                            <i data-lucide="target" class="text-blue-600 mr-2 w-5 h-5"></i>
-                            <h3 class="text-xl font-bold text-slate-800">Áreas Críticas de Enfoque</h3>
+                    <!-- Focos Estratégicos -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-slate-900 to-aero-900 rounded-3xl p-8 text-white shadow-lg">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="bg-white/10 p-2 rounded-lg"><i data-lucide="wrench" class="w-6 h-6 text-blue-300"></i></div>
+                                <h3 class="text-xl font-bold">Foco: Operaciones</h3>
+                            </div>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                                <strong>Objetivo:</strong> Reducción crítica del tiempo de AOG.<br>
+                                La IA optimiza el mantenimiento correctivo y preventivo, impactando directamente en la rentabilidad al evitar ineficiencias en la disponibilidad de flota.
+                            </p>
                         </div>
-                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div>
-                                <h4 class="font-bold text-slate-900 flex items-center text-lg"><i data-lucide="activity" class="mr-2 text-red-500 w-5 h-5"></i> Operaciones (Mantenimiento)</h4>
-                                <p class="text-sm text-slate-600 mt-2 mb-3"><strong>Objetivo:</strong> Reducción crítica del tiempo de AOG (Aircraft on Ground).</p>
-                                <p class="text-sm text-slate-600">La implementación de IA optimiza el mantenimiento correctivo y preventivo, impactando directamente la rentabilidad al evitar ineficiencias.</p>
+
+                        <div class="bg-gradient-to-br from-blue-700 to-blue-900 rounded-3xl p-8 text-white shadow-lg">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="bg-white/10 p-2 rounded-lg"><i data-lucide="graduation-cap" class="w-6 h-6 text-blue-200"></i></div>
+                                <h3 class="text-xl font-bold">Foco: RR.HH. / Adiestramiento</h3>
                             </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 flex items-center text-lg"><i data-lucide="graduation-cap" class="mr-2 text-blue-500 w-5 h-5"></i> RR.HH. / Adiestramientos</h4>
-                                <p class="text-sm text-slate-600 mt-2 mb-3"><strong>Objetivo:</strong> Gestión proactiva de talento y cumplimiento normativo.</p>
-                                <p class="text-sm text-slate-600">Automatizar la formación reduce la carga administrativa, asegurando que el cumplimiento sea proactivo y no una reacción al vencimiento de licencias críticas.</p>
-                            </div>
+                            <p class="text-blue-100 text-sm leading-relaxed mb-4">
+                                <strong>Objetivo:</strong> Gestión de talento y cumplimiento normativo.<br>
+                                Automatizar formación reduce 40% de carga administrativa. Asegura cumplimiento proactivo, no reactivo al vencimiento de licencias.
+                            </p>
                         </div>
                     </div>
                 </div>
-            `;
-        }
-
-        function generateEcosystemHTML() {
-            return `
-                <div class="space-y-8 fade-in max-w-5xl mx-auto">
-                    <div>
-                        <h2 class="text-3xl font-bold text-slate-900">Ecosistema y Arquitectura de Datos</h2>
-                        <p class="text-slate-500 mt-2 text-lg">Aprovechando la inversión global ($715.000 M) para orquestar un ecosistema aeronáutico robusto.</p>
-                    </div>
-
-                    <!-- Data Warning -->
-                    <div class="bg-red-50 border border-red-200 rounded-2xl p-6 flex items-start space-x-4 shadow-sm">
-                        <div class="bg-red-100 text-red-600 p-3 rounded-full flex-shrink-0">
-                            <i data-lucide="siren" class="w-6 h-6"></i>
-                        </div>
+            `,
+            ecosistema: () => `
+                <div class="slide-up space-y-8">
+                    <!-- Advertencia Crítica (Data Staircase) -->
+                    <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-2xl flex gap-5 shadow-sm">
+                        <div class="text-red-500 mt-1"><i data-lucide="triangle-alert" class="w-8 h-8"></i></div>
                         <div>
-                            <h3 class="text-lg font-bold text-red-900">Advertencia Crítica: La Escalera de Datos</h3>
-                            <p class="text-sm text-red-800 mt-2 leading-relaxed">
-                                El éxito en aviación no reside en el algoritmo, sino en los datos. Actualmente, el <strong>80% de la información crucial</strong> (mantenimiento, audios, partes) carece de estructura. Si se omite la fase de limpieza y gobernanza, la IA generará <strong>"alucinaciones"</strong>, lo que en este sector se traduce directamente en <strong>riesgos graves de seguridad</strong>.
+                            <h3 class="text-xl font-bold text-red-900 mb-2">Advertencia Crítica: La Escalera de Datos</h3>
+                            <p class="text-red-800 text-sm leading-relaxed">
+                                El éxito reside en los datos, no en el algoritmo. Actualmente el <strong>80% de la información (mantenimiento, audios) carece de estructura</strong>. Omitir la fase de gobernanza generará <em>alucinaciones</em>, que en aviación significan <strong>riesgos graves de seguridad</strong>. Esta es la causa por la que el impacto financiero global suele estancarse por debajo del 10%.
                             </p>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
-                            <h3 class="text-xl font-bold text-slate-800 flex items-center border-b pb-4">
-                                <i data-lucide="layers" class="mr-2 text-blue-600 w-5 h-5"></i> Componentes del Ecosistema
-                            </h3>
-                            
-                            <div class="space-y-5">
-                                <div class="flex gap-4 items-start">
-                                    <i data-lucide="brain-circuit" class="text-indigo-500 w-6 h-6 mt-0.5"></i>
-                                    <div>
-                                        <h4 class="font-bold text-slate-900">Modelos Base (LLMs/SLMs)</h4>
-                                        <p class="text-sm text-slate-600 mt-1">GPT-4o y Claude 3.5 para razonamiento. <strong>SLMs</strong> para tareas de hangar que exigen baja latencia y alta privacidad.</p>
-                                    </div>
-                                </div>
-                                <div class="flex gap-4 items-start">
-                                    <i data-lucide="cloud" class="text-emerald-500 w-6 h-6 mt-0.5"></i>
-                                    <div>
-                                        <h4 class="font-bold text-slate-900">Hyperscalers (Azure/AWS)</h4>
-                                        <p class="text-sm text-slate-600 mt-1">Infraestructura crítica que absorbe el 75% del CapEx global. Garantiza el cumplimiento normativo de seguridad de datos.</p>
-                                    </div>
-                                </div>
-                                <div class="flex gap-4 items-start">
-                                    <i data-lucide="briefcase" class="text-amber-500 w-6 h-6 mt-0.5"></i>
-                                    <div>
-                                        <h4 class="font-bold text-slate-900">Herramientas & Servicios</h4>
-                                        <p class="text-sm text-slate-600 mt-1">Microsoft Copilot para oficina, CRMs con IA nativa y Consultoras para integración de sistemas legacy (Part-145) y EU AI Act.</p>
-                                    </div>
-                                </div>
+                    <!-- Ecosistema 715kM -->
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                            <i data-lucide="network" class="text-blue-600"></i> Ecosistema de Arquitectura (Inversión 715kM$)
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200">
+                                <i data-lucide="brain-circuit" class="text-purple-600 mb-3 w-6 h-6"></i>
+                                <h4 class="font-bold text-slate-900 text-sm mb-2">Modelos (LLMs/SLMs)</h4>
+                                <p class="text-xs text-slate-600">GPT-4o / Claude 3.5 para razonamiento. SLMs locales para baja latencia y privacidad en hangares.</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200">
+                                <i data-lucide="cloud" class="text-blue-600 mb-3 w-6 h-6"></i>
+                                <h4 class="font-bold text-slate-900 text-sm mb-2">Hyperscalers</h4>
+                                <p class="text-xs text-slate-600">Azure / AWS (75% del CapEx). Garantizan escalabilidad y cumplimiento normativo de seguridad.</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200">
+                                <i data-lucide="layout-grid" class="text-emerald-600 mb-3 w-6 h-6"></i>
+                                <h4 class="font-bold text-slate-900 text-sm mb-2">Herramientas</h4>
+                                <p class="text-xs text-slate-600">Microsoft Copilot (eficiencia adm.) y CRMs nativos para gestión de mantenimiento y cliente.</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200">
+                                <i data-lucide="users-cog" class="text-amber-600 mb-3 w-6 h-6"></i>
+                                <h4 class="font-bold text-slate-900 text-sm mb-2">Servicios</h4>
+                                <p class="text-xs text-slate-600">Consultoras para integrar sistemas legacy (Part-145) y validación bajo el EU AI Act.</p>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-lg space-y-6">
-                            <h3 class="text-xl font-bold flex items-center border-b border-slate-700 pb-4">
-                                <i data-lucide="trending-up" class="mr-2 text-blue-400 w-5 h-5"></i> Tendencias (Horizonte 24m)
-                            </h3>
-                            
-                            <div class="space-y-4">
-                                <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
-                                    <h4 class="font-bold text-blue-300 text-sm">Intelligent Experience Architecture</h4>
-                                    <p class="text-sm text-slate-300 mt-1">De menús estáticos a navegación conversacional. Interacción natural para consultar la MEL o turnos de tripulación.</p>
-                                </div>
-                                <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
-                                    <h4 class="font-bold text-emerald-300 text-sm">Edge AI</h4>
-                                    <p class="text-sm text-slate-300 mt-1">Procesamiento local en dispositivos de vuelo y hangares. Baja latencia para diagnósticos en entornos de conectividad limitada.</p>
-                                </div>
-                                <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
-                                    <h4 class="font-bold text-purple-300 text-sm">IA Multimodal "Reasoning Companion"</h4>
-                                    <p class="text-sm text-slate-300 mt-1">Integración de manuales, audio de cabina y vídeos de boroscopio para diagnosticar daños en álabes de turbinas mediante RAG.</p>
-                                </div>
+                    <!-- Tendencias a 24 meses -->
+                    <div class="bg-slate-900 rounded-3xl p-8 text-white mt-8">
+                        <h3 class="text-xl font-bold mb-6 text-white border-b border-slate-700 pb-4">Tendencias (Horizonte 24 meses)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div>
+                                <h4 class="text-blue-400 font-bold mb-2 text-sm uppercase tracking-wide">Intelligent Experience</h4>
+                                <p class="text-sm text-slate-300">Interfaces conversacionales. Interacción natural para consultar la MEL o turnos, reemplazando menús complejos.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-emerald-400 font-bold mb-2 text-sm uppercase tracking-wide">Edge AI</h4>
+                                <p class="text-sm text-slate-300">Procesamiento local en hangares/vuelo. Baja latencia para diagnósticos sin depender de conectividad a internet.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-purple-400 font-bold mb-2 text-sm uppercase tracking-wide">IA Multimodal (RAG)</h4>
+                                <p class="text-sm text-slate-300">"Reasoning Companion": Integra texto (manuales), audio (comunicaciones) y vídeo (boroscopio) simultáneamente.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            `;
-        }
+            `,
+            matriz: () => `
+                <div class="slide-up">
+                    <p class="text-slate-600 mb-6 text-lg">
+                        Priorización metodológica usando <strong>Framework RICE / Gartner Prism</strong>. Se evalúa el impacto, viabilidad técnica y estado de datos (Escala 1-5).
+                    </p>
 
-        function generateOpportunitiesHTML() {
-            const cases = [
-                { name: 'Gestión de Adiestramientos', impact: 5, viability: 5, data: 4, effort: 2, speed: 5, total: 21, rec: true },
-                { name: 'Digitalización de Partes', impact: 4, viability: 4, data: 3, effort: 3, speed: 4, total: 18, rec: false },
-                { name: 'Asistente de Mantenimiento', impact: 5, viability: 3, data: 2, effort: 4, speed: 3, total: 17, rec: false },
-                { name: 'Gestión de Stock', impact: 3, viability: 3, data: 4, effort: 3, speed: 3, total: 16, rec: false },
-                { name: 'Seguridad Perimetral', impact: 2, viability: 4, data: 3, effort: 3, speed: 2, total: 14, rec: false },
-            ];
-
-            const getScoreColor = (val) => {
-                if (val >= 4) return 'text-emerald-600 font-bold';
-                if (val === 3) return 'text-amber-600 font-bold';
-                return 'text-red-600 font-bold';
-            };
-
-            const tableRows = cases.map(c => `
-                <tr class="table-row-hover ${c.rec ? 'table-row-recommended' : ''} border-b border-slate-100 last:border-0">
-                    <td class="px-6 py-4 font-semibold text-slate-900 flex items-center">
-                        ${c.rec ? '<i data-lucide="star" class="text-yellow-500 fill-yellow-500 mr-2 w-5 h-5"></i>' : ''}
-                        ${c.name}
-                    </td>
-                    <td class="px-4 py-4 text-center"><span class="${getScoreColor(c.impact)}">${c.impact}</span></td>
-                    <td class="px-4 py-4 text-center"><span class="${getScoreColor(c.viability)}">${c.viability}</span></td>
-                    <td class="px-4 py-4 text-center"><span class="${getScoreColor(c.data)}">${c.data}</span></td>
-                    <td class="px-4 py-4 text-center"><span class="${getScoreColor(5 - c.effort)}">${c.effort}</span></td>
-                    <td class="px-4 py-4 text-center"><span class="${getScoreColor(c.speed)}">${c.speed}</span></td>
-                    <td class="px-6 py-4 text-center"><span class="badge ${c.rec ? 'badge-success' : 'badge-neutral'} text-sm font-black">${c.total}</span></td>
-                </tr>
-            `).join('');
-
-            return `
-                <div class="space-y-8 fade-in max-w-5xl mx-auto">
-                    <div>
-                        <h2 class="text-3xl font-bold text-slate-900">Casos de Uso (Framework RICE / Gartner Prism)</h2>
-                        <p class="text-slate-500 mt-2 text-lg">Evaluación ponderada sobre impacto, viabilidad, estado de datos, esfuerzo y velocidad (Escala 1-5).</p>
+                    <!-- Highlight Adiestramientos -->
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 mb-8 flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <i data-lucide="star" class="text-emerald-600 w-5 h-5 fill-emerald-600"></i>
+                                <h3 class="text-lg font-bold text-emerald-900">Proyecto Ganador: Gestión de Adiestramientos</h3>
+                            </div>
+                            <p class="text-emerald-800 text-sm">Obtiene la puntuación perfecta (21 pts) al ofrecer un retorno inmediato, altísima viabilidad y mitigar un riesgo regulatorio crítico.</p>
+                        </div>
+                        <div class="hidden md:block text-5xl font-black text-emerald-600 opacity-30">21</div>
                     </div>
 
+                    <!-- Tabla de Datos -->
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left">
-                                <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+                            <table class="w-full text-sm text-left glass-table">
+                                <thead class="text-xs text-slate-500 uppercase tracking-wider">
                                     <tr>
-                                        <th class="px-6 py-4 font-bold text-slate-700">Proyecto</th>
-                                        <th class="px-4 py-4 text-center" title="Impacto en Negocio (Peso Alto)">Impacto (5)</th>
-                                        <th class="px-4 py-4 text-center" title="Viabilidad Técnica (Peso Alto)">Viabilidad (5)</th>
-                                        <th class="px-4 py-4 text-center" title="Calidad de Datos Actual (Peso Medio-Alto)">Calidad Datos (4)</th>
-                                        <th class="px-4 py-4 text-center" title="Esfuerzo Requerido (Inverso, Peso Medio)">Esfuerzo (2)</th>
-                                        <th class="px-4 py-4 text-center" title="Velocidad de Retorno (Peso Alto)">Retorno Rápido (5)</th>
-                                        <th class="px-6 py-4 text-center font-bold text-slate-900">Puntaje Total</th>
+                                        <th class="px-6 py-4 font-bold text-slate-700">Caso de Uso</th>
+                                        <th class="px-4 py-4 text-center">Impacto (5)</th>
+                                        <th class="px-4 py-4 text-center">Viabilidad (5)</th>
+                                        <th class="px-4 py-4 text-center">Datos (4)</th>
+                                        <th class="px-4 py-4 text-center">Esfuerzo (2)*</th>
+                                        <th class="px-4 py-4 text-center">Velocidad (5)</th>
+                                        <th class="px-6 py-4 text-center bg-slate-100 font-bold">Total</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    ${tableRows}
+                                <tbody class="text-slate-700 font-medium">
+                                    <tr class="bg-emerald-50/50">
+                                        <td class="px-6 py-4 font-bold text-emerald-900 flex items-center gap-2">
+                                            Gestión de Adiestramientos
+                                        </td>
+                                        <td class="px-4 py-4 text-center text-emerald-600 font-bold">5</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600 font-bold">5</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600 font-bold">4</td>
+                                        <td class="px-4 py-4 text-center text-amber-600 font-bold">2</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600 font-bold">5</td>
+                                        <td class="px-6 py-4 text-center bg-emerald-100 text-emerald-900 font-black text-lg">21</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">Digitalización de Partes</td>
+                                        <td class="px-4 py-4 text-center">4</td>
+                                        <td class="px-4 py-4 text-center">4</td>
+                                        <td class="px-4 py-4 text-center">3</td>
+                                        <td class="px-4 py-4 text-center">3</td>
+                                        <td class="px-4 py-4 text-center">4</td>
+                                        <td class="px-6 py-4 text-center bg-slate-50 font-bold">18</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">Asistente de Mantenimiento</td>
+                                        <td class="px-4 py-4 text-center">5</td>
+                                        <td class="px-4 py-4 text-center">3</td>
+                                        <td class="px-4 py-4 text-center text-red-500 font-bold">2</td>
+                                        <td class="px-4 py-4 text-center">4</td>
+                                        <td class="px-4 py-4 text-center">3</td>
+                                        <td class="px-6 py-4 text-center bg-slate-50 font-bold">17</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">Gestión de Stock</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-4 py-4 text-center">4</td>
+                                        <td class="px-4 py-4 text-center">3</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-6 py-4 text-center bg-slate-50 font-bold">16</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">Seguridad Perimetral</td>
+                                        <td class="px-4 py-4 text-center text-red-500 font-bold">2</td>
+                                        <td class="px-4 py-4 text-center">4</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-4 py-4 text-center">3</td>
+                                        <td class="px-4 py-4 text-center text-red-500 font-bold">2</td>
+                                        <td class="px-6 py-4 text-center bg-slate-50 font-bold">14</td>
+                                    </tr>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="p-4 bg-blue-50 border-t border-blue-100 text-sm text-blue-800 flex items-start">
-                            <i data-lucide="info" class="mr-2 flex-shrink-0 mt-0.5 w-5 h-5"></i>
-                            <p><strong>Gestión de Adiestramientos</strong> lidera indiscutiblemente la matriz con 21 puntos, ofreciendo un balance perfecto entre retorno inmediato, viabilidad y mitigación de un riesgo altísimo.</p>
-                        </div>
-                    </div>
-
-                    <!-- Detalles Casos -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-4 border border-slate-200 rounded-xl bg-white shadow-sm">
-                            <h4 class="font-bold text-slate-800 text-sm flex items-center mb-2"><i data-lucide="file-check-2" class="w-4 h-4 mr-2 text-blue-600"></i>Digitalización de Partes (18 pts)</h4>
-                            <p class="text-xs text-slate-600">Agentes de ingesta OCR contra el ERP. Reduce el trabajo de back-office un 20% y ofrece datos en tiempo real.</p>
-                        </div>
-                        <div class="p-4 border border-slate-200 rounded-xl bg-white shadow-sm">
-                            <h4 class="font-bold text-slate-800 text-sm flex items-center mb-2"><i data-lucide="wrench" class="w-4 h-4 mr-2 text-blue-600"></i>Asistente de Mantenimiento (17 pts)</h4>
-                            <p class="text-xs text-slate-600">Compañero de razonamiento RAG (Part-145). Tasa de Solución (FCR) > 92%. Penalizado por baja calidad de datos actual.</p>
-                        </div>
-                        <div class="p-4 border border-slate-200 rounded-xl bg-white shadow-sm">
-                            <h4 class="font-bold text-slate-800 text-sm flex items-center mb-2"><i data-lucide="package" class="w-4 h-4 mr-2 text-blue-600"></i>Gestión de Stock (16 pts)</h4>
-                            <p class="text-xs text-slate-600">Modelo predictivo de demanda. Proyecta una mejora del Margen Bruto del +12% al optimizar inventario.</p>
-                        </div>
-                        <div class="p-4 border border-slate-200 rounded-xl bg-white shadow-sm">
-                            <h4 class="font-bold text-slate-800 text-sm flex items-center mb-2"><i data-lucide="video" class="w-4 h-4 mr-2 text-blue-600"></i>Seguridad Perimetral (14 pts)</h4>
-                            <p class="text-xs text-slate-600">Vigilancia multimodal para hangares. Reduce costos fijos pero tiene menor impacto directo en la disponibilidad de flota.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateRoadmapHTML() {
-            return `
-                <div class="space-y-8 fade-in max-w-5xl mx-auto">
-                    <div>
-                        <h2 class="text-3xl font-bold text-slate-900">Diagnóstico de Madurez y Roadmap</h2>
-                        <p class="text-slate-500 mt-2 text-lg">Estado actual y plan de ejecución a 12 meses hacia la adopción total.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <div class="lg:col-span-1 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
-                            <h3 class="text-xl font-bold text-slate-800 border-b pb-4">Madurez: Nivel 1-2</h3>
-                            
-                            <div class="space-y-4">
-                                <div>
-                                    <div class="flex justify-between text-sm mb-1"><span class="font-semibold text-slate-700">Estrategia</span></div>
-                                    <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-amber-400 h-1.5 rounded-full w-2/5"></div></div>
-                                    <p class="text-xs text-slate-500 mt-1">Interés, pero falta un <strong>AI Product Owner</strong> dedicado.</p>
-                                </div>
-                                <div>
-                                    <div class="flex justify-between text-sm mb-1"><span class="font-semibold text-slate-700">Datos</span></div>
-                                    <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-amber-400 h-1.5 rounded-full w-2/5"></div></div>
-                                    <p class="text-xs text-slate-500 mt-1">Part-145 estructurados, pero abundancia de reportes no estructurados en silos.</p>
-                                </div>
-                                <div>
-                                    <div class="flex justify-between text-sm mb-1"><span class="font-semibold text-slate-700">Talento</span></div>
-                                    <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-red-500 h-1.5 rounded-full w-1/4"></div></div>
-                                    <p class="text-xs text-slate-500 mt-1">Los 70 empleados necesitan AI Literacy práctica orientada a roles.</p>
-                                </div>
-                                <div>
-                                    <div class="flex justify-between text-sm mb-1"><span class="font-semibold text-slate-700">Cultura & Tech</span></div>
-                                    <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-red-500 h-1.5 rounded-full w-1/4"></div></div>
-                                    <p class="text-xs text-slate-500 mt-1">Sistemas legacy, temor al reemplazo ("necesidad de enfoque de aumento").</p>
-                                </div>
+                            <div class="px-6 py-3 bg-slate-50 text-xs text-slate-500 border-t border-slate-200">
+                                *Nota: El Esfuerzo (1-5) actúa inversamente. Menor esfuerzo suma a la viabilidad rápida del proyecto.
                             </div>
                         </div>
+                    </div>
 
-                        <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                            <h3 class="text-xl font-bold text-slate-800 border-b pb-4 mb-6">Roadmap de Adopción (12 Meses)</h3>
-                            
-                            <div class="relative border-l-2 border-slate-200 ml-3 space-y-8">
-                                <div class="relative pl-6">
-                                    <div class="absolute w-4 h-4 bg-blue-600 rounded-full -left-[9px] top-1 ring-4 ring-white"></div>
-                                    <h4 class="font-bold text-slate-900 text-lg flex items-center">
-                                        Horizonte 1: Eficiencia (Mes 1-3) <span class="badge badge-success ml-3">Inmediato</span>
-                                    </h4>
-                                    <p class="text-slate-600 mt-2 font-medium">Lanzamiento del Piloto de Gestión de Adiestramientos.</p>
-                                    <p class="text-sm text-slate-500 mt-1"><strong>Objetivo:</strong> Validar ROI rápido, asegurar cumplimiento legal (EU AI Act) y generar momentum organizacional en RRHH.</p>
-                                </div>
-                                
-                                <div class="relative pl-6">
-                                    <div class="absolute w-4 h-4 bg-amber-500 rounded-full -left-[9px] top-1 ring-4 ring-white"></div>
-                                    <h4 class="font-bold text-slate-900 text-lg">Horizonte 2: Escalado (Mes 4-8)</h4>
-                                    <p class="text-slate-600 mt-2 font-medium">Asistente de Mantenimiento y Optimización de Stock</p>
-                                    <p class="text-sm text-slate-500 mt-1"><strong>Objetivo:</strong> Despliegue de RAG para técnicos. Integración de datos compartidos entre departamentos para un modelo predictivo robusto.</p>
-                                </div>
-
-                                <div class="relative pl-6">
-                                    <div class="absolute w-4 h-4 bg-purple-500 rounded-full -left-[9px] top-1 ring-4 ring-white"></div>
-                                    <h4 class="font-bold text-slate-900 text-lg">Horizonte 3: Transformación (Mes 9-12)</h4>
-                                    <p class="text-slate-600 mt-2 font-medium">Hacia la "Frontier Firm"</p>
-                                    <p class="text-sm text-slate-500 mt-1"><strong>Objetivo:</strong> Despliegue de IA Multimodal para seguridad y digitalización total de la cadena de valor. Transición a modelo de agentes autónomos supervisados.</p>
-                                </div>
+                    <!-- Detalles Casos Subyacentes -->
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex gap-4">
+                            <div class="bg-blue-50 text-blue-600 p-2 rounded-lg h-fit"><i data-lucide="file-text" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-800">Partes (18 pts)</h4>
+                                <p class="text-xs text-slate-600 mt-1">OCR vs ERP. Datos en tiempo real y -20% en tiempos back-office.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex gap-4">
+                            <div class="bg-blue-50 text-blue-600 p-2 rounded-lg h-fit"><i data-lucide="wrench" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-800">Mantenimiento (17 pts)</h4>
+                                <p class="text-xs text-slate-600 mt-1">RAG Part-145. FCR > 92%. Penalizado hoy por calidad de datos desestructurados.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex gap-4">
+                            <div class="bg-blue-50 text-blue-600 p-2 rounded-lg h-fit"><i data-lucide="boxes" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-800">Stock (16 pts)</h4>
+                                <p class="text-xs text-slate-600 mt-1">Predictivo de demanda. Mejora de +12% en Margen Bruto al optimizar repuestos.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            `;
-        }
+            `,
+            roadmap: () => `
+                <div class="slide-up">
+                    <p class="text-slate-600 mb-8 text-lg">
+                        Estado actual <strong>(Nivel 1-2: Conciencia y Experimentación)</strong> y ruta crítica de adopción hacia el nivel operativo total en un plazo de 12 meses.
+                    </p>
 
-        function generateRecommendationHTML() {
-            return `
-                <div class="space-y-8 fade-in max-w-5xl mx-auto pb-12">
-                    <div>
-                        <h2 class="text-3xl font-bold text-slate-900">Business Case & Ejecución</h2>
-                        <p class="text-slate-500 mt-2 text-lg">Justificación financiera y matriz de responsabilidad (RACI).</p>
-                    </div>
-
-                    <div class="bg-gradient-to-br from-blue-900 to-slate-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-8 opacity-10">
-                            <i data-lucide="badge-check" class="w-48 h-48"></i>
-                        </div>
-                        <div class="relative z-10 max-w-3xl space-y-6">
-                            <div class="inline-flex items-center space-x-2 bg-emerald-500/20 text-emerald-300 px-4 py-2 rounded-full text-sm font-semibold border border-emerald-500/30">
-                                <i data-lucide="check-circle" class="w-4 h-4"></i>
-                                <span>Prioridad Número Uno Establecida</span>
-                            </div>
-                            
-                            <h3 class="text-3xl font-black leading-tight text-white">
-                                Gestión Automatizada de Adiestramientos Internos
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                        <!-- Madurez -->
+                        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                            <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                                <i data-lucide="bar-chart-2" class="text-blue-600 w-5 h-5"></i> Diagnóstico de Madurez
                             </h3>
                             
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                                <div class="bg-white/10 p-5 rounded-2xl border border-white/10 backdrop-blur-sm">
-                                    <div class="flex items-center space-x-3 mb-3">
-                                        <i data-lucide="trending-up" class="text-emerald-400 w-6 h-6"></i>
-                                        <h4 class="text-xl font-bold">ROI y Ahorro</h4>
+                            <div class="space-y-6">
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm font-bold text-slate-700">Estrategia</span>
+                                        <span class="text-xs text-amber-600 font-bold bg-amber-50 px-2 py-1 rounded">Interés inicial</span>
                                     </div>
-                                    <p class="text-sm text-blue-100">
-                                        Ahorro anual estimado de <strong>75.000€</strong> por eficiencias generadas. Inversión inicial controlada que actuará como motor de confianza para la transformación sistémica.
-                                    </p>
+                                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-amber-400 w-[30%]"></div></div>
+                                    <p class="text-xs text-slate-500 mt-2">Falta un AI Product Owner dedicado. Proyectos aislados.</p>
                                 </div>
                                 
-                                <div class="bg-white/10 p-5 rounded-2xl border border-white/10 backdrop-blur-sm">
-                                    <div class="flex items-center space-x-3 mb-3">
-                                        <i data-lucide="scale" class="text-amber-400 w-6 h-6"></i>
-                                        <h4 class="text-xl font-bold">EU AI Act / Riesgo</h4>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm font-bold text-slate-700">Datos</span>
+                                        <span class="text-xs text-amber-600 font-bold bg-amber-50 px-2 py-1 rounded">Silos Mixtos</span>
                                     </div>
-                                    <p class="text-sm text-blue-100">
-                                        Clasificado como "Riesgo Elevado". Exige supervisión estricta humana (<strong>Human-in-the-Loop</strong>), pero evita la parálisis inaceptable de la flota por licencias vencidas.
-                                    </p>
+                                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-amber-400 w-[40%]"></div></div>
+                                    <p class="text-xs text-slate-500 mt-2">Part-145 estructurado; reportes críticos desestructurados.</p>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm font-bold text-slate-700">Talento & Cultura</span>
+                                        <span class="text-xs text-red-600 font-bold bg-red-50 px-2 py-1 rounded">Brecha / Resistencia</span>
+                                    </div>
+                                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-red-500 w-[20%]"></div></div>
+                                    <p class="text-xs text-slate-500 mt-2">Personal experto sin AI Literacy. Miedo al reemplazo laboral.</p>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm font-bold text-slate-700">Tecnología</span>
+                                        <span class="text-xs text-red-600 font-bold bg-red-50 px-2 py-1 rounded">Legacy</span>
+                                    </div>
+                                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-red-500 w-[25%]"></div></div>
+                                    <p class="text-xs text-slate-500 mt-2">Dependencia de sistemas antiguos. Transición a Cloud requerida.</p>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="mt-4 pt-6 border-t border-white/20">
-                                <p class="text-lg font-medium text-white italic">
-                                    "El éxito de este proyecto piloto es la clave para desbloquear el futuro de la aerolínea; el riesgo de no actuar es la inmovilización de nuestra capacidad operativa."
+                        <!-- Roadmap Timeline -->
+                        <div class="relative pl-4">
+                            <div class="absolute left-[15px] top-4 bottom-4 w-0.5 bg-slate-200"></div>
+                            
+                            <!-- H1 -->
+                            <div class="relative pl-10 mb-10">
+                                <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-blue-100 border-4 border-white flex items-center justify-center shadow-sm">
+                                    <div class="w-3 h-3 bg-blue-600 rounded-full"></div>
+                                </div>
+                                <h4 class="text-sm font-bold text-blue-600 uppercase tracking-widest mb-1">Horizonte 1 (Mes 1-3)</h4>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Piloto de Eficiencia</h3>
+                                <p class="text-sm text-slate-600 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                    Lanzamiento de <strong>Gestión de Adiestramientos</strong>. <br><br>
+                                    <span class="text-xs font-semibold text-emerald-600">🎯 Meta:</span> Validar ROI rápido, cumplir con EU AI Act y generar momentum interno (vencer la resistencia).
+                                </p>
+                            </div>
+
+                            <!-- H2 -->
+                            <div class="relative pl-10 mb-10">
+                                <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-amber-100 border-4 border-white flex items-center justify-center shadow-sm">
+                                    <div class="w-3 h-3 bg-amber-500 rounded-full"></div>
+                                </div>
+                                <h4 class="text-sm font-bold text-amber-600 uppercase tracking-widest mb-1">Horizonte 2 (Mes 4-8)</h4>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Escalado</h3>
+                                <p class="text-sm text-slate-600 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                    Implementación de <strong>Asistente de Mantenimiento (RAG)</strong> y optimización de Stock.<br><br>
+                                    <span class="text-xs font-semibold text-emerald-600">🎯 Meta:</span> Integración de datos entre departamentos. Mejora del FCR operativo.
+                                </p>
+                            </div>
+
+                            <!-- H3 -->
+                            <div class="relative pl-10">
+                                <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-purple-100 border-4 border-white flex items-center justify-center shadow-sm">
+                                    <div class="w-3 h-3 bg-purple-600 rounded-full"></div>
+                                </div>
+                                <h4 class="text-sm font-bold text-purple-600 uppercase tracking-widest mb-1">Horizonte 3 (Mes 9-12)</h4>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Transformación Total</h3>
+                                <p class="text-sm text-slate-600 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                    Despliegue de IA Multimodal (Seguridad) y digitalización de cadena de valor.<br><br>
+                                    <span class="text-xs font-semibold text-emerald-600">🎯 Meta:</span> Transición exitosa a modelo de agentes autónomos. "Frontier Firm" alcanzada.
                                 </p>
                             </div>
                         </div>
                     </div>
+                </div>
+            `,
+            businesscase: () => `
+                <div class="slide-up">
+                    <!-- Recommendation Card -->
+                    <div class="bg-blue-600 rounded-3xl p-8 lg:p-10 text-white shadow-xl mb-10 relative overflow-hidden">
+                        <div class="absolute -right-10 -bottom-10 opacity-10">
+                            <i data-lucide="shield-check" class="w-64 h-64"></i>
+                        </div>
+                        <div class="relative z-10">
+                            <span class="bg-blue-800 text-blue-100 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">Recomendación Ejecutiva</span>
+                            <h2 class="text-3xl lg:text-4xl font-black mb-4 leading-tight">Implementar Gestión Automatizada de Adiestramientos</h2>
+                            <p class="text-blue-100 text-lg mb-8 max-w-3xl">La inacción conlleva un riesgo inaceptable: la inmovilización de nuestra capacidad operativa (flota parada) por licencias vencidas.</p>
 
-                    <!-- Matriz RACI -->
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
-                            <i data-lucide="table-properties" class="mr-2 text-blue-600 w-5 h-5"></i>
-                            Matriz RACI para Barreras de Implementación
-                        </h3>
-                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                            <table class="w-full text-sm text-left">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <i data-lucide="piggy-bank" class="text-emerald-400 w-6 h-6"></i>
+                                        <h3 class="font-bold text-xl">75.000€ Ahorro Anual</h3>
+                                    </div>
+                                    <p class="text-sm text-blue-100 leading-relaxed">Retorno de inversión (ROI) estimado por eficiencias administrativas directas. Funciona como motor de confianza financiera.</p>
+                                </div>
+                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <i data-lucide="scale" class="text-amber-300 w-6 h-6"></i>
+                                        <h3 class="font-bold text-xl">EU AI Act (High Risk)</h3>
+                                    </div>
+                                    <p class="text-sm text-blue-100 leading-relaxed">Clasificación de riesgo elevado que exige y justifica la adopción inmediata de supervisión <strong class="text-white">Human-in-the-Loop</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RACI Matrix -->
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="table-properties" class="text-blue-600"></i> Matriz RACI & Mitigación
+                    </h3>
+                    
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left glass-table">
                                 <thead class="text-xs text-slate-600 uppercase bg-slate-50 border-b border-slate-200">
                                     <tr>
                                         <th class="px-6 py-4 font-bold">Eje</th>
                                         <th class="px-6 py-4">Barrera</th>
-                                        <th class="px-6 py-4">Estrategia de Mitigación</th>
-                                        <th class="px-6 py-4 bg-slate-100 text-center rounded-tr-lg">RACI</th>
+                                        <th class="px-6 py-4">Mitigación Proactiva</th>
+                                        <th class="px-6 py-4 text-center">RACI</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-100">
-                                    <tr class="hover:bg-slate-50">
-                                        <td class="px-6 py-4 font-bold text-slate-800">Cultura</td>
-                                        <td class="px-6 py-4 text-slate-600">Miedo al reemplazo laboral por IA.</td>
-                                        <td class="px-6 py-4 text-slate-600">Comunicación transparente: Posicionar como "copiloto". Enfoque Human-in-the-Loop.</td>
-                                        <td class="px-6 py-4 text-center font-mono text-xs bg-slate-50">R: Dirección<br>A: CEO</td>
+                                <tbody class="text-slate-700">
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-slate-900 bg-slate-50/50">Cultura</td>
+                                        <td class="px-6 py-4">Miedo al reemplazo laboral.</td>
+                                        <td class="px-6 py-4">Posicionar la IA como "Copiloto". Asegurar Human-in-the-loop.</td>
+                                        <td class="px-6 py-4 text-center whitespace-nowrap">
+                                            <span class="font-bold text-blue-600">R:</span> Dirección<br>
+                                            <span class="font-bold text-emerald-600">A:</span> CEO
+                                        </td>
                                     </tr>
-                                    <tr class="hover:bg-slate-50">
-                                        <td class="px-6 py-4 font-bold text-slate-800">Talento</td>
-                                        <td class="px-6 py-4 text-slate-600">Brecha en habilidades y capacidades.</td>
-                                        <td class="px-6 py-4 text-slate-600">Upskilling práctico y selección de "AI Champions".</td>
-                                        <td class="px-6 py-4 text-center font-mono text-xs bg-slate-50">R: RR.HH.<br>C: IT</td>
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-slate-900 bg-slate-50/50">Talento</td>
+                                        <td class="px-6 py-4">Brecha en habilidades requeridas.</td>
+                                        <td class="px-6 py-4">Upskilling práctico y selección de "AI Champions" internos.</td>
+                                        <td class="px-6 py-4 text-center whitespace-nowrap">
+                                            <span class="font-bold text-blue-600">R:</span> RR.HH.<br>
+                                            <span class="font-bold text-slate-500">C:</span> IT
+                                        </td>
                                     </tr>
-                                    <tr class="hover:bg-slate-50">
-                                        <td class="px-6 py-4 font-bold text-slate-800">Datos</td>
-                                        <td class="px-6 py-4 text-slate-600">Silos y baja calidad (desestructurados).</td>
-                                        <td class="px-6 py-4 text-slate-600">Protocolos rigurosos de limpieza y gobernanza centralizada.</td>
-                                        <td class="px-6 py-4 text-center font-mono text-xs bg-slate-50">R: Data Sci.<br>A: CDO</td>
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-slate-900 bg-slate-50/50">Datos</td>
+                                        <td class="px-6 py-4">Silos y baja calidad estructural.</td>
+                                        <td class="px-6 py-4">Protocolos rigurosos de limpieza y gobernanza centralizada.</td>
+                                        <td class="px-6 py-4 text-center whitespace-nowrap">
+                                            <span class="font-bold text-blue-600">R:</span> Data Sci.<br>
+                                            <span class="font-bold text-emerald-600">A:</span> CDO
+                                        </td>
                                     </tr>
-                                    <tr class="hover:bg-slate-50">
-                                        <td class="px-6 py-4 font-bold text-slate-800">Tecnología</td>
-                                        <td class="px-6 py-4 text-slate-600">Dependencia de Sistemas Legacy.</td>
-                                        <td class="px-6 py-4 text-slate-600">Arquitecturas cloud agnósticas y reingeniería de código con IA.</td>
-                                        <td class="px-6 py-4 text-center font-mono text-xs bg-slate-50">R: IT<br>C: Prov.</td>
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-slate-900 bg-slate-50/50">Tecnología</td>
+                                        <td class="px-6 py-4">Uso de Sistemas Legacy.</td>
+                                        <td class="px-6 py-4">Arquitecturas cloud agnósticas y reingeniería con IA.</td>
+                                        <td class="px-6 py-4 text-center whitespace-nowrap">
+                                            <span class="font-bold text-blue-600">R:</span> IT<br>
+                                            <span class="font-bold text-slate-500">C:</span> Prov.
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-            `;
-        }
-
-        // --- Core Logic ---
-
-        function renderSidebar() {
-            const navContainer = document.getElementById('sidebar-nav');
-            navContainer.innerHTML = sections.map(section => `
-                <button 
-                    onclick="changeSection('${section.id}')"
-                    class="sidebar-item w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left ${activeSectionId === section.id ? 'active' : 'text-slate-400'}"
-                >
-                    <i data-lucide="${section.icon}" class="w-5 h-5 ${activeSectionId === section.id ? 'text-blue-200' : 'text-slate-500'}"></i>
-                    <span class="font-medium">${section.label}</span>
-                </button>
-            `).join('');
-            
-            // Re-initialize icons for newly added HTML
-            lucide.createIcons();
-        }
-
-        function renderContent() {
-            const mainContainer = document.getElementById('main-content');
-            let contentHTML = '';
-
-            switch (activeSectionId) {
-                case 'context': contentHTML = generateContextHTML(); break;
-                case 'ecosystem': contentHTML = generateEcosystemHTML(); break;
-                case 'opportunities': contentHTML = generateOpportunitiesHTML(); break;
-                case 'roadmap': contentHTML = generateRoadmapHTML(); break;
-                case 'recommendation': contentHTML = generateRecommendationHTML(); break;
-                default: contentHTML = generateContextHTML();
-            }
-
-            mainContainer.innerHTML = contentHTML;
-            // Re-initialize icons for the main content area
-            lucide.createIcons();
-        }
-
-        // Global function called by buttons
-        window.changeSection = function(sectionId) {
-            if (activeSectionId !== sectionId) {
-                activeSectionId = sectionId;
-                renderSidebar();
-                renderContent();
-            }
+            `
         };
 
-        // Initialize application
+        // 3. Controlador de la App (JavaScript Vainilla)
+        class DashboardController {
+            constructor() {
+                this.activeSection = 'estrategia';
+                this.navContainer = document.getElementById('navigation-menu');
+                this.contentContainer = document.getElementById('content-area');
+                this.titleElement = document.getElementById('section-title');
+                
+                this.init();
+            }
+
+            init() {
+                this.renderNav();
+                this.loadSection(this.activeSection);
+            }
+
+            renderNav() {
+                this.navContainer.innerHTML = appData.sections.map(sec => `
+                    <button 
+                        data-id="${sec.id}"
+                        class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-left text-sm ${this.activeSection === sec.id ? 'active' : 'text-slate-500 hover:bg-slate-50'}"
+                    >
+                        <i data-lucide="${sec.icon}" class="w-5 h-5 ${this.activeSection === sec.id ? 'text-blue-600' : 'text-slate-400'}"></i>
+                        ${sec.title}
+                    </button>
+                `).join('');
+
+                // Asignar Event Listeners
+                this.navContainer.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.currentTarget.getAttribute('data-id');
+                        this.loadSection(id);
+                    });
+                });
+            }
+
+            loadSection(id) {
+                this.activeSection = id;
+                
+                // Actualizar UI de Navegación
+                this.renderNav();
+                
+                // Actualizar Título
+                const sectionData = appData.sections.find(s => s.id === id);
+                this.titleElement.innerText = sectionData.title;
+
+                // Actualizar Contenido
+                this.contentContainer.innerHTML = Views[id]();
+                
+                // Refrescar Iconos
+                lucide.createIcons();
+                
+                // Scroll top smooth
+                document.querySelector('main').scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // 4. Inicializar al cargar el DOM
         document.addEventListener('DOMContentLoaded', () => {
-            renderSidebar();
-            renderContent();
+            new DashboardController();
         });
     </script>
 </body>
