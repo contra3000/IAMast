@@ -39,7 +39,7 @@
     <style>
         body {
             background-color: #f8fafc;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         /* Animaciones fluidas */
@@ -73,30 +73,31 @@
             font-weight: 700;
         }
         
-        /* Scrollbar para el menú si la pantalla es pequeña */
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        /* Scrollbar para el menú */
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="flex h-screen text-slate-800 antialiased selection:bg-blue-200">
 
     <!-- Navegación Lateral -->
-    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col justify-between flex-shrink-0 z-20">
+    <aside class="w-80 bg-white border-r border-slate-200 flex flex-col justify-between flex-shrink-0 z-20 shadow-sm">
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header Logo -->
-            <div class="h-20 flex items-center px-6 border-b border-slate-100 mb-4 shrink-0">
-                <div class="w-10 h-10 bg-aero-900 rounded-xl flex items-center justify-center mr-3 shadow-md">
-                    <i data-lucide="plane-takeoff" class="text-white w-5 h-5"></i>
+            <div class="h-24 flex items-center px-6 border-b border-slate-100 mb-4 shrink-0 bg-white">
+                <div class="w-12 h-12 bg-aero-900 rounded-xl flex items-center justify-center mr-4 shadow-md text-white">
+                    <i data-lucide="plane-takeoff" class="w-6 h-6"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-extrabold text-aero-900 tracking-tight">Aero<span class="text-blue-600">IA</span></h1>
-                    <p class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Dossier Estratégico</p>
+                    <h1 class="text-xl font-extrabold text-aero-900 tracking-tight">Aero<span class="text-blue-600">IA</span></h1>
+                    <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mt-0.5">Business Case</p>
                 </div>
             </div>
 
-            <!-- Menú Desplazable -->
-            <nav class="flex flex-col gap-0.5 px-4 overflow-y-auto custom-scrollbar pb-4 flex-1" id="navigation-menu">
+            <!-- Menú Desplazable (10 Secciones) -->
+            <nav class="flex flex-col gap-1 px-4 overflow-y-auto custom-scrollbar pb-4 flex-1" id="navigation-menu">
                 <!-- Generado por JS -->
             </nav>
         </div>
@@ -104,26 +105,27 @@
         <!-- Footer Sidebar -->
         <div class="p-5 m-4 bg-slate-50 rounded-2xl border border-slate-100 shrink-0">
             <div class="flex items-center gap-2 text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
-                <i data-lucide="info" class="w-4 h-4"></i> Estatus
+                <i data-lucide="activity" class="w-4 h-4"></i> KPI Principal
             </div>
-            <div class="text-xs text-slate-700 font-medium mb-1">Fase: <span class="text-amber-600">Experimentación</span></div>
-            <div class="text-xs text-slate-700 font-medium">Meta: <span class="text-emerald-600">Frontier Firm</span></div>
+            <div class="text-sm font-black text-emerald-600 leading-tight">
+                Disponibilidad<br>de Flota (0 AOG)
+            </div>
         </div>
     </aside>
 
     <!-- Área de Contenido Principal -->
-    <div class="flex-1 flex flex-col relative overflow-hidden bg-slate-50">
+    <div class="flex-1 flex flex-col relative overflow-hidden bg-slate-50/50">
         <!-- Header superior -->
-        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center px-10 z-10 sticky top-0 justify-between">
+        <header class="h-24 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center px-10 z-10 sticky top-0 justify-between">
             <h2 id="section-title" class="text-2xl font-bold text-slate-800">Cargando...</h2>
-            <div class="flex items-center gap-3 bg-blue-50 px-4 py-2 rounded-full border border-blue-100 text-blue-800 text-sm font-semibold shadow-sm">
-                <i data-lucide="target" class="w-4 h-4"></i> Disponibilidad de Flota (Cero AOG)
+            <div class="hidden lg:flex items-center gap-3 bg-blue-50 px-5 py-2.5 rounded-full border border-blue-100 text-blue-800 text-sm font-semibold shadow-sm">
+                <i data-lucide="target" class="w-4 h-4 text-blue-600"></i> Meta: Frontier Firm
             </div>
         </header>
 
         <!-- Contenedor scrolleable -->
-        <main class="flex-1 overflow-y-auto p-10">
-            <div id="content-area" class="max-w-5xl mx-auto pb-10">
+        <main class="flex-1 overflow-y-auto p-10 custom-scrollbar">
+            <div id="content-area" class="max-w-5xl mx-auto pb-12">
                 <!-- Contenido dinámico -->
             </div>
         </main>
@@ -131,133 +133,182 @@
 
     <!-- CÓDIGO JAVASCRIPT: Lógica y Datos -->
     <script>
-        // 1. Estructura de Datos (Fiel a los 9 puntos del documento)
+        // 1. Estructura de Datos (Introducción + 9 puntos exactos del documento)
         const appData = {
             sections: [
-                { id: 's1', icon: 'compass', title: '1. Estrategia y Visión' },
-                { id: 's2', icon: 'network', title: '2. Ecosistema de IA' },
-                { id: 's3', icon: 'database', title: '3. Gobernanza de Datos' },
-                { id: 's4', icon: 'lightbulb', title: '4. Tendencias Tecnológicas' },
-                { id: 's5', icon: 'grid', title: '5. Priorización (RICE)' },
+                { id: 'intro', icon: 'book-open', title: 'Introducción Estratégica' },
+                { id: 's1', icon: 'network', title: '1. Mapa del Ecosistema IA' },
+                { id: 's2', icon: 'lightbulb', title: '2. Tendencias' },
+                { id: 's3', icon: 'crosshair', title: '3. Selección del Área Crítica' },
+                { id: 's4', icon: 'map', title: '4. Mapa de Oportunidades y Casos de Uso' },
+                { id: 's5', icon: 'grid', title: '5. Matriz de Priorización Detallada' },
                 { id: 's6', icon: 'bar-chart-2', title: '6. Diagnóstico de Madurez' },
-                { id: 's7', icon: 'route', title: '7. Roadmap de Ejecución' },
-                { id: 's8', icon: 'table-properties', title: '8. Matriz RACI' },
-                { id: 's9', icon: 'briefcase', title: '9. Recomendación Final' }
+                { id: 's7', icon: 'route', title: '7. Roadmap de Adopción' },
+                { id: 's8', icon: 'table-properties', title: '8. Barreras y Acciones de Mitigación (Matriz RACI)' },
+                { id: 's9', icon: 'briefcase', title: '9. Recomendación Ejecutiva Final' }
             ]
         };
 
-        // 2. Vistas desglosadas por cada punto del documento
+        // 2. Vistas desglosadas por cada uno de los 10 puntos
         const Views = {
-            s1: () => `
+            intro: () => `
                 <div class="slide-up">
-                    <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mb-6">
-                        <i data-lucide="rocket" class="w-4 h-4"></i>
+                    <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+                        <i data-lucide="rocket" class="w-4 h-4 text-blue-400"></i>
                         <span>De Experimentación Ad Hoc a Frontier Firm</span>
                     </div>
-                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
-                        El objetivo central de esta transición es la optimización de la disponibilidad de la flota y la mitigación proactiva del riesgo operativo mediante la IA. La IA asumirá la gestión operativa mientras el personal se enfoca en la dirección estratégica.
+                    
+                    <h3 class="text-3xl font-black text-slate-900 mb-4">Dossier Estratégico de IA</h3>
+                    <p class="text-lg text-slate-600 mb-10 leading-relaxed">
+                        Este documento fundamenta la estrategia de transformación con Inteligencia Artificial. El objetivo central de esta transición es la <strong>optimización de la disponibilidad de la flota</strong> y la mitigación proactiva del riesgo operativo, permitiendo que la IA asuma la gestión operativa mientras el personal se enfoca en la dirección estratégica.
                     </p>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
-                            <div class="text-blue-600 flex justify-center mb-4"><i data-lucide="plane" class="w-8 h-8"></i></div>
-                            <div class="text-5xl font-black text-slate-900 mb-2">10</div>
-                            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Aeronaves</h3>
-                            <p class="text-xs text-slate-500">La inoperatividad de una unidad es una pérdida crítica.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex items-center gap-6">
+                            <div class="bg-blue-50 text-blue-600 p-4 rounded-2xl"><i data-lucide="plane" class="w-10 h-10"></i></div>
+                            <div>
+                                <div class="text-4xl font-black text-slate-900">10</div>
+                                <h4 class="font-bold text-slate-500 uppercase tracking-widest text-xs mt-1">Aeronaves</h4>
+                                <p class="text-sm text-slate-600 mt-2">Cada unidad representa el 10% de la capacidad. 1 AOG = Pérdida crítica.</p>
+                            </div>
                         </div>
-                        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
-                            <div class="text-amber-500 flex justify-center mb-4"><i data-lucide="users" class="w-8 h-8"></i></div>
-                            <div class="text-5xl font-black text-slate-900 mb-2">70</div>
-                            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Empleados</h3>
-                            <p class="text-xs text-slate-500">Requieren upskilling para evitar el rezago técnico.</p>
+
+                        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex items-center gap-6">
+                            <div class="bg-amber-50 text-amber-600 p-4 rounded-2xl"><i data-lucide="users" class="w-10 h-10"></i></div>
+                            <div>
+                                <div class="text-4xl font-black text-slate-900">70</div>
+                                <h4 class="font-bold text-slate-500 uppercase tracking-widest text-xs mt-1">Empleados</h4>
+                                <p class="text-sm text-slate-600 mt-2">Requieren upskilling estratégico para no quedar rezagados tecnológicamente.</p>
+                            </div>
                         </div>
-                        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
-                            <div class="text-emerald-500 flex justify-center mb-4"><i data-lucide="timer" class="w-8 h-8"></i></div>
-                            <div class="text-5xl font-black text-slate-900 mb-2">-40%</div>
-                            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Carga Admin.</h3>
-                            <p class="text-xs text-slate-500">Meta de reducción en RRHH y adiestramientos.</p>
+                    </div>
+                </div>
+            `,
+            s1: () => `
+                <div class="slide-up">
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                        Para una operadora aérea, no se trata de desarrollar modelos desde cero, sino de orquestar un ecosistema robusto que aproveche el "tsunami" de inversión global (proyectado en <strong>715.000 M$ para 2026</strong> por los principales actores).
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex gap-5 items-start">
+                            <div class="bg-purple-100 text-purple-600 p-3 rounded-xl mt-1"><i data-lucide="brain-circuit" class="w-6 h-6"></i></div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Grandes Modelos (LLMs/SLMs)</h3>
+                                <p class="text-slate-600 leading-relaxed">Utilización de modelos de frontera como GPT-4o o Claude 3.5 para razonamiento complejo y planificación. Implementación de <strong>SLMs (Small Language Models)</strong> especializados para tareas de cabina o hangares donde se requiere baja latencia y procesamiento de datos sensibles bajo protocolos de privacidad estrictos.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex gap-5 items-start">
+                            <div class="bg-blue-100 text-blue-600 p-3 rounded-xl mt-1"><i data-lucide="cloud" class="w-6 h-6"></i></div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Hyperscalers</h3>
+                                <p class="text-slate-600 leading-relaxed">Infraestructura crítica sobre Microsoft Azure o AWS. Estos proveedores garantizan la escalabilidad necesaria para el procesamiento de telemetría y el estricto cumplimiento normativo de seguridad de datos en la aviación.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             `,
             s2: () => `
                 <div class="slide-up">
-                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
-                        Para una operadora aérea, no se trata de desarrollar modelos desde cero, sino de orquestar un ecosistema robusto que aproveche el "tsunami" de inversión global (proyectado en <strong>715.000 M$ para 2026</strong>).
-                    </p>
+                    <!-- Escalera de Datos como Aclaración dentro de Tendencias -->
+                    <div class="bg-red-50 border border-red-200 rounded-3xl p-6 shadow-sm mb-10">
+                        <div class="flex items-center gap-3 mb-4">
+                            <i data-lucide="triangle-alert" class="w-6 h-6 text-red-600"></i>
+                            <h3 class="text-xl font-black text-red-900">Aclaración Crítica: La Escalera de Datos</h3>
+                        </div>
+                        <p class="text-red-900/80 leading-relaxed text-sm mb-3">
+                            El éxito en aviación no reside en el algoritmo, sino en los datos. Actualmente, el <strong>80% de la información crucial</strong> (mantenimiento, audios, registros) carece de estructura.
+                        </p>
+                        <p class="text-red-900/80 leading-relaxed text-sm">
+                            Si se omite la fase de limpieza y gobernanza, la IA generará datos falsos ("alucinaciones"). En nuestro sector, esto se traduce directamente en <strong>riesgos graves de seguridad operacional</strong> y explica por qué el impacto financiero global a veces se estanca.
+                        </p>
+                    </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 text-purple-600">
-                                <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-6">Tendencias Tecnológicas (Horizonte 24 meses)</h3>
+                    <div class="grid grid-cols-1 gap-5">
+                        <div class="bg-slate-900 p-6 rounded-2xl text-white shadow-md flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                            <div class="bg-white/10 p-4 rounded-xl text-blue-400 flex-shrink-0"><i data-lucide="message-square" class="w-8 h-8"></i></div>
+                            <div>
+                                <h4 class="font-bold text-xl mb-2 text-blue-100">Intelligent Experience Architecture</h4>
+                                <p class="text-sm text-slate-300 leading-relaxed">Transición de menús estáticos a navegación conversacional. Interacción directa en lenguaje natural para consultar la MEL o turnos, reemplazando la búsqueda manual.</p>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-900 mb-2">Grandes Modelos (LLMs/SLMs)</h3>
-                            <p class="text-sm text-slate-600">Utilización de GPT-4o o Claude 3.5 para razonamiento. Implementación de <strong>SLMs (Small Language Models)</strong> para tareas de cabina o hangares que exigen baja latencia y alta privacidad.</p>
+                        </div>
+                        
+                        <div class="bg-slate-900 p-6 rounded-2xl text-white shadow-md flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                            <div class="bg-white/10 p-4 rounded-xl text-emerald-400 flex-shrink-0"><i data-lucide="cpu" class="w-8 h-8"></i></div>
+                            <div>
+                                <h4 class="font-bold text-xl mb-2 text-emerald-100">Edge AI</h4>
+                                <p class="text-sm text-slate-300 leading-relaxed">Procesamiento local en dispositivos de vuelo y hangares. Garantiza baja latencia para diagnósticos en entornos de conectividad limitada.</p>
+                            </div>
                         </div>
 
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 text-blue-600">
-                                <i data-lucide="cloud" class="w-6 h-6"></i>
+                        <div class="bg-slate-900 p-6 rounded-2xl text-white shadow-md flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                            <div class="bg-white/10 p-4 rounded-xl text-purple-400 flex-shrink-0"><i data-lucide="layers" class="w-8 h-8"></i></div>
+                            <div>
+                                <h4 class="font-bold text-xl mb-2 text-purple-100">IA Multimodal "Reasoning Companion"</h4>
+                                <p class="text-sm text-slate-300 leading-relaxed">Sistemas que integran voz de cabina, texto de manuales y vídeos simultáneamente para realizar predicciones holísticas sobre fallos.</p>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-900 mb-2">Hyperscalers</h3>
-                            <p class="text-sm text-slate-600">Infraestructura sobre Microsoft Azure o AWS (75% del CapEx). Garantizan escalabilidad para telemetría y el cumplimiento normativo de seguridad de datos.</p>
                         </div>
                     </div>
                 </div>
             `,
             s3: () => `
-                <div class="slide-up space-y-6">
-                    <div class="bg-red-50 border border-red-200 rounded-3xl p-8 flex flex-col md:flex-row gap-6 shadow-sm">
-                        <div class="bg-red-100 text-red-600 p-4 rounded-2xl flex-shrink-0 h-fit">
-                            <i data-lucide="triangle-alert" class="w-10 h-10"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-red-900 mb-3">La Escalera de Datos (Advertencia Crítica)</h3>
-                            <p class="text-red-800 text-base leading-relaxed mb-4">
-                                El éxito en aviación no reside en el algoritmo, sino en los datos. Actualmente, el <strong>80% de la información crucial</strong> (mantenimiento, audios, partes) carece de estructura.
-                            </p>
-                            <p class="text-red-800 text-base leading-relaxed">
-                                Si se omite la fase de limpieza y gobernanza, la IA generará <strong>"alucinaciones"</strong>, lo que en este sector se traduce directamente en <strong>riesgos graves de seguridad operacional</strong>.
-                            </p>
-                        </div>
-                    </div>
+                <div class="slide-up">
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                        Basándonos en el análisis de la cadena de valor, hemos identificado que las áreas de enfoque críticas que generan mayores riesgos de <strong>AOG (Aircraft on Ground)</strong> provienen de procesos no técnicos y administrativos.
+                    </p>
 
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                        <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="check-circle" class="text-emerald-500"></i> Plan de Mitigación de Datos</h4>
-                        <ul class="space-y-3 text-sm text-slate-600">
-                            <li class="flex items-start gap-2"><div class="mt-1 w-1.5 h-1.5 bg-blue-500 rounded-full"></div> Limpieza proactiva de repositorios en silos (PDFs, manuales).</li>
-                            <li class="flex items-start gap-2"><div class="mt-1 w-1.5 h-1.5 bg-blue-500 rounded-full"></div> Estructuración de datos históricos para futuros modelos predictivos.</li>
-                            <li class="flex items-start gap-2"><div class="mt-1 w-1.5 h-1.5 bg-blue-500 rounded-full"></div> Implementación de gobernanza centralizada (Data Owner).</li>
-                        </ul>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+                            <div class="bg-red-50 text-red-600 p-4 rounded-2xl w-fit mb-6"><i data-lucide="alert-octagon" class="w-8 h-8"></i></div>
+                            <h4 class="font-bold text-slate-900 text-xl mb-3">Cuellos de Botella Humanos</h4>
+                            <p class="text-slate-600 leading-relaxed text-sm">
+                                El mantenimiento actual sufre de procesos lentos. La dependencia de firmas técnicas físicas y la revisión manual de registros generan bloqueos operativos. Si un técnico o director no puede validar una documentación a tiempo, la aeronave permanece en tierra, drenando rentabilidad inútilmente.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+                            <div class="bg-amber-50 text-amber-600 p-4 rounded-2xl w-fit mb-6"><i data-lucide="file-warning" class="w-8 h-8"></i></div>
+                            <h4 class="font-bold text-slate-900 text-xl mb-3">Intensidad Burocrática</h4>
+                            <p class="text-slate-600 leading-relaxed text-sm">
+                                La gestión de manuales de aeronavegabilidad, registros de vuelo y licencias del personal técnico y de vuelo depende de intervenciones manuales exhaustivas. Esta saturación de información desestructurada aumenta drásticamente el riesgo de error ante las autoridades de aviación civil.
+                            </p>
+                        </div>
                     </div>
                 </div>
             `,
             s4: () => `
                 <div class="slide-up">
-                    <h3 class="text-xl font-bold text-slate-800 mb-6">Tendencias (Horizonte 24 meses)</h3>
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="bg-gradient-to-r from-slate-900 to-slate-800 p-6 rounded-2xl text-white shadow-md flex items-center gap-6">
-                            <div class="bg-white/10 p-4 rounded-xl text-blue-400"><i data-lucide="message-square" class="w-8 h-8"></i></div>
-                            <div>
-                                <h4 class="font-bold text-lg mb-1">Intelligent Experience Architecture</h4>
-                                <p class="text-sm text-slate-300">Transición de menús estáticos a navegación conversacional natural. Diálogo directo con manuales extensos (MEL) en lugar de búsqueda manual.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gradient-to-r from-slate-900 to-slate-800 p-6 rounded-2xl text-white shadow-md flex items-center gap-6">
-                            <div class="bg-white/10 p-4 rounded-xl text-emerald-400"><i data-lucide="cpu" class="w-8 h-8"></i></div>
-                            <div>
-                                <h4 class="font-bold text-lg mb-1">Edge AI</h4>
-                                <p class="text-sm text-slate-300">Procesamiento local en dispositivos de vuelo y hangares. Permite baja latencia y diagnósticos seguros en entornos sin conexión a internet.</p>
-                            </div>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                        Para asegurar una transformación exitosa y evitar proyectos "piloto zombie", mapeamos las oportunidades evaluando los posibles casos de uso utilizando una adaptación del <strong>Framework RICE</strong> combinado con el <strong>Gartner Prism</strong>.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                            <h4 class="font-bold text-blue-600 mb-4 uppercase tracking-wider text-sm flex items-center gap-2"><i data-lucide="target" class="w-4 h-4"></i> Criterios de Peso</h4>
+                            <ul class="space-y-4">
+                                <li class="flex gap-3">
+                                    <div class="bg-blue-50 text-blue-600 font-bold px-2 py-1 rounded text-xs h-fit">I</div>
+                                    <p class="text-sm text-slate-700"><strong>Impacto Operativo (1-5):</strong> ¿Cuánto reduce el riesgo de AOG o el gasto administrativo?</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <div class="bg-blue-50 text-blue-600 font-bold px-2 py-1 rounded text-xs h-fit">V</div>
+                                    <p class="text-sm text-slate-700"><strong>Viabilidad Técnica (1-5):</strong> Disponibilidad y madurez de la tecnología hoy.</p>
+                                </li>
+                                <li class="flex gap-3">
+                                    <div class="bg-blue-50 text-blue-600 font-bold px-2 py-1 rounded text-xs h-fit">D</div>
+                                    <p class="text-sm text-slate-700"><strong>Calidad de Datos (1-4):</strong> ¿Están los datos limpios y estructurados?</p>
+                                </li>
+                            </ul>
                         </div>
 
-                        <div class="bg-gradient-to-r from-slate-900 to-slate-800 p-6 rounded-2xl text-white shadow-md flex items-center gap-6">
-                            <div class="bg-white/10 p-4 rounded-xl text-purple-400"><i data-lucide="layers" class="w-8 h-8"></i></div>
-                            <div>
-                                <h4 class="font-bold text-lg mb-1">IA Multimodal "Reasoning Companion"</h4>
-                                <p class="text-sm text-slate-300">Sistemas RAG avanzados que integran voz de cabina, texto y vídeos de turbinas simultáneamente para predecir fallos de forma holística.</p>
-                            </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center text-center">
+                            <i data-lucide="zap" class="w-12 h-12 text-amber-500 mx-auto mb-4"></i>
+                            <h4 class="font-bold text-slate-900 text-lg mb-2">Velocidad de Valor (Quick Wins)</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                El factor más crítico en esta fase inicial. Se priorizan proyectos de <strong>esfuerzo bajo</strong> y <strong>retorno rápido</strong> para generar confianza directiva antes de abordar problemas algorítmicos complejos.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -265,208 +316,249 @@
             s5: () => `
                 <div class="slide-up">
                     <p class="text-slate-600 mb-6 text-lg">
-                        Evaluación basada en el Framework RICE / Gartner Prism (Escala 1-5).
+                        Aplicación de la matriz de priorización sobre los 4 casos de uso principales.
                     </p>
 
-                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 mb-6">
-                        <div class="flex items-center gap-2 mb-2">
-                            <i data-lucide="star" class="text-emerald-600 w-5 h-5 fill-emerald-600"></i>
-                            <h3 class="text-lg font-bold text-emerald-900">Proyecto Ganador (21 pts)</h3>
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <i data-lucide="star" class="text-emerald-600 w-6 h-6 fill-emerald-600"></i>
+                                <h3 class="text-xl font-bold text-emerald-900">Ganador: Gestión de Adiestramientos</h3>
+                            </div>
+                            <p class="text-emerald-800/80 text-sm font-medium">Equilibrio perfecto entre retorno rápido, calidad de datos actual y mitigación de riesgo regulatorio.</p>
                         </div>
-                        <p class="text-emerald-800 text-sm">La <strong>Gestión de Adiestramientos</strong> lidera la matriz al ofrecer retorno inmediato, altísima viabilidad y mitigar el riesgo regulatorio.</p>
+                        <div class="bg-emerald-600 text-white font-black text-3xl px-4 py-2 rounded-xl shadow-sm">21 pts</div>
                     </div>
 
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                        <table class="w-full text-sm text-left glass-table">
-                            <thead class="text-xs text-slate-500 uppercase tracking-wider bg-slate-50">
-                                <tr>
-                                    <th class="px-6 py-4 font-bold text-slate-700">Caso de Uso</th>
-                                    <th class="px-4 py-4 text-center">Impacto</th>
-                                    <th class="px-4 py-4 text-center">Viabilidad</th>
-                                    <th class="px-4 py-4 text-center">Datos</th>
-                                    <th class="px-4 py-4 text-center">Esfuerzo*</th>
-                                    <th class="px-4 py-4 text-center">Velocidad</th>
-                                    <th class="px-6 py-4 text-center bg-slate-100 font-bold">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-slate-700 font-medium">
-                                <tr class="bg-emerald-50/50">
-                                    <td class="px-6 py-4 font-bold text-emerald-900">Adiestramientos</td>
-                                    <td class="px-4 py-4 text-center text-emerald-600">5</td>
-                                    <td class="px-4 py-4 text-center text-emerald-600">5</td>
-                                    <td class="px-4 py-4 text-center text-emerald-600">4</td>
-                                    <td class="px-4 py-4 text-center text-amber-600">2</td>
-                                    <td class="px-4 py-4 text-center text-emerald-600">5</td>
-                                    <td class="px-6 py-4 text-center bg-emerald-100 text-emerald-900 font-black">21</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4">Digitalización Partes</td>
-                                    <td class="px-4 py-4 text-center">4</td>
-                                    <td class="px-4 py-4 text-center">4</td>
-                                    <td class="px-4 py-4 text-center">3</td>
-                                    <td class="px-4 py-4 text-center">3</td>
-                                    <td class="px-4 py-4 text-center">4</td>
-                                    <td class="px-6 py-4 text-center bg-slate-50 font-bold">18</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4">Asistente Mantenimiento</td>
-                                    <td class="px-4 py-4 text-center">5</td>
-                                    <td class="px-4 py-4 text-center">3</td>
-                                    <td class="px-4 py-4 text-center text-red-500 font-bold">2</td>
-                                    <td class="px-4 py-4 text-center">4</td>
-                                    <td class="px-4 py-4 text-center">3</td>
-                                    <td class="px-6 py-4 text-center bg-slate-50 font-bold">17</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="px-6 py-3 bg-slate-50 text-xs text-slate-500 border-t border-slate-200">
-                            *Nota: El Esfuerzo (1-5) actúa inversamente.
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left glass-table">
+                                <thead class="text-xs text-slate-500 uppercase tracking-wider bg-slate-50">
+                                    <tr>
+                                        <th class="px-6 py-4 font-bold text-slate-700">Caso de Uso</th>
+                                        <th class="px-4 py-4 text-center">Impacto (5)</th>
+                                        <th class="px-4 py-4 text-center">Viabilidad (5)</th>
+                                        <th class="px-4 py-4 text-center">Datos (4)</th>
+                                        <th class="px-4 py-4 text-center" title="Menor esfuerzo = más puntos">Esfuerzo* (2)</th>
+                                        <th class="px-4 py-4 text-center">Velocidad (5)</th>
+                                        <th class="px-6 py-4 text-center bg-slate-100 font-bold">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-slate-700 font-medium">
+                                    <tr class="bg-emerald-50/40">
+                                        <td class="px-6 py-4 font-bold text-emerald-900">1. Gestión de Adiestramientos</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600">5</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600">5</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600">4</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">2</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600">5</td>
+                                        <td class="px-6 py-4 text-center bg-emerald-100 text-emerald-900 font-black text-lg">21</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-slate-800">2. Digitalización de Partes</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600">4</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600">4</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600">4</td>
+                                        <td class="px-6 py-4 text-center bg-slate-50 font-bold">18</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-slate-800">3. Asistente Mantenimiento (RAG)</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600">5</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-4 py-4 text-center text-red-500 font-bold">2</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600">4</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-6 py-4 text-center bg-slate-50 font-bold">17</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-slate-800">4. Optimización de Stock</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-4 py-4 text-center text-emerald-600">4</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-4 py-4 text-center text-amber-600">3</td>
+                                        <td class="px-6 py-4 text-center bg-slate-50 font-bold">16</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             `,
             s6: () => `
                 <div class="slide-up">
-                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-6">
-                        <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                            <i data-lucide="bar-chart-2" class="text-blue-600 w-5 h-5"></i> Nivel Actual: 1-2 (Experimentación)
-                        </h3>
-                        
-                        <div class="space-y-6">
-                            <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-sm font-bold text-slate-700">Estrategia</span>
-                                    <span class="text-xs text-amber-600 font-bold bg-amber-50 px-2 py-1 rounded">Interés inicial</span>
-                                </div>
-                                <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-amber-400 w-[30%]"></div></div>
-                                <p class="text-xs text-slate-500 mt-2">Falta un AI Product Owner dedicado. Proyectos aislados.</p>
-                            </div>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                        La organización se encuentra en una fase de <strong>"Experimentación Ad Hoc" (Niveles 1-2)</strong>. Identificar este punto de partida es vital para no forzar implementaciones que la cultura corporativa no pueda absorber.
+                    </p>
+
+                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                             
+                            <!-- Estrategia -->
                             <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-sm font-bold text-slate-700">Datos</span>
-                                    <span class="text-xs text-amber-600 font-bold bg-amber-50 px-2 py-1 rounded">Silos Mixtos</span>
+                                <div class="flex justify-between items-end mb-2">
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2"><i data-lucide="compass" class="w-4 h-4 text-blue-500"></i> Estrategia</h4>
+                                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded">Nivel 2</span>
                                 </div>
-                                <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-amber-400 w-[40%]"></div></div>
-                                <p class="text-xs text-slate-500 mt-2">Part-145 estructurado; reportes críticos desestructurados.</p>
+                                <div class="h-2.5 bg-slate-100 rounded-full overflow-hidden mb-2"><div class="h-full bg-amber-400 w-[30%]"></div></div>
+                                <p class="text-sm text-slate-500">Interés directivo, pero falta un AI Product Owner dedicado. Proyectos aislados sin hilo conductor.</p>
                             </div>
 
+                            <!-- Datos -->
                             <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-sm font-bold text-slate-700">Talento & Cultura</span>
-                                    <span class="text-xs text-red-600 font-bold bg-red-50 px-2 py-1 rounded">Resistencia</span>
+                                <div class="flex justify-between items-end mb-2">
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2"><i data-lucide="database" class="w-4 h-4 text-blue-500"></i> Datos</h4>
+                                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded">Nivel 2</span>
                                 </div>
-                                <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-red-500 w-[20%]"></div></div>
-                                <p class="text-xs text-slate-500 mt-2">Personal experto sin AI Literacy. Miedo al reemplazo laboral.</p>
+                                <div class="h-2.5 bg-slate-100 rounded-full overflow-hidden mb-2"><div class="h-full bg-amber-400 w-[40%]"></div></div>
+                                <p class="text-sm text-slate-500">Documentación Part-145 estructurada, pero abundancia de reportes críticos desestructurados en silos.</p>
                             </div>
 
+                            <!-- Talento / Cultura -->
                             <div>
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-sm font-bold text-slate-700">Tecnología</span>
-                                    <span class="text-xs text-red-600 font-bold bg-red-50 px-2 py-1 rounded">Legacy</span>
+                                <div class="flex justify-between items-end mb-2">
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-blue-500"></i> Talento & Cultura</h4>
+                                    <span class="text-xs font-bold text-red-600 bg-red-50 px-2 py-1 rounded">Nivel 1</span>
                                 </div>
-                                <div class="h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-red-500 w-[25%]"></div></div>
-                                <p class="text-xs text-slate-500 mt-2">Dependencia de sistemas antiguos (sin APIs abiertas).</p>
+                                <div class="h-2.5 bg-slate-100 rounded-full overflow-hidden mb-2"><div class="h-full bg-red-500 w-[20%]"></div></div>
+                                <p class="text-sm text-slate-500">Personal altamente experto en aeronáutica pero sin "AI Literacy". Existe temor latente al reemplazo laboral.</p>
                             </div>
+
+                            <!-- Tecnología -->
+                            <div>
+                                <div class="flex justify-between items-end mb-2">
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2"><i data-lucide="cpu" class="w-4 h-4 text-blue-500"></i> Tecnología</h4>
+                                    <span class="text-xs font-bold text-red-600 bg-red-50 px-2 py-1 rounded">Nivel 1</span>
+                                </div>
+                                <div class="h-2.5 bg-slate-100 rounded-full overflow-hidden mb-2"><div class="h-full bg-red-500 w-[25%]"></div></div>
+                                <p class="text-sm text-slate-500">Dependencia de sistemas antiguos (Legacy) sin APIs abiertas. Transición a Cloud en fase incipiente.</p>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             `,
             s7: () => `
                 <div class="slide-up">
-                    <div class="relative pl-4 max-w-3xl">
-                        <div class="absolute left-[15px] top-4 bottom-4 w-0.5 bg-slate-200"></div>
+                    <p class="text-lg text-slate-600 mb-10 leading-relaxed">
+                        Plan de ejecución trazado a 12 meses para pasar de la experimentación a la transformación operativa real y alcanzar la meta.
+                    </p>
+
+                    <div class="relative pl-6 max-w-4xl mx-auto">
+                        <div class="absolute left-[27px] top-4 bottom-4 w-1 bg-slate-200 rounded-full"></div>
                         
-                        <div class="relative pl-10 mb-10">
-                            <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-blue-100 border-4 border-white flex items-center justify-center shadow-sm">
-                                <div class="w-3 h-3 bg-blue-600 rounded-full"></div>
+                        <!-- Horizonte 1 -->
+                        <div class="relative pl-12 mb-12 group">
+                            <div class="absolute left-0 top-1 w-12 h-12 rounded-full bg-blue-100 border-4 border-white flex items-center justify-center shadow-md z-10 group-hover:scale-110 transition-transform">
+                                <i data-lucide="rocket" class="w-5 h-5 text-blue-600"></i>
                             </div>
-                            <h4 class="text-sm font-bold text-blue-600 uppercase tracking-widest mb-1">Horizonte 1 (Mes 1-3)</h4>
-                            <h3 class="text-xl font-bold text-slate-900 mb-2">Piloto de Eficiencia</h3>
-                            <p class="text-sm text-slate-600 bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                                Lanzamiento de <strong>Gestión de Adiestramientos</strong>. <br><br>
-                                <span class="text-xs font-semibold text-emerald-600">🎯 Meta:</span> Validar ROI rápido, cumplir con EU AI Act y generar momentum interno.
-                            </p>
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                                <h4 class="text-sm font-bold text-blue-600 uppercase tracking-widest mb-1">Horizonte 1 (Mes 1-3)</h4>
+                                <h3 class="text-2xl font-bold text-slate-900 mb-3">Piloto de Eficiencia</h3>
+                                <p class="text-slate-600 mb-4">Lanzamiento operativo del proyecto prioritario: <strong>Gestión de Adiestramientos</strong>.</p>
+                                <div class="bg-blue-50 p-3 rounded-xl border border-blue-100 text-sm text-blue-800 font-medium flex gap-2 items-start">
+                                    <i data-lucide="target" class="w-5 h-5 flex-shrink-0 text-blue-600"></i>
+                                    <span><strong>Meta:</strong> Validar ROI rápido, cumplir con directivas EU AI Act y generar momentum interno para vencer la resistencia cultural.</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="relative pl-10 mb-10">
-                            <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-amber-100 border-4 border-white flex items-center justify-center shadow-sm">
-                                <div class="w-3 h-3 bg-amber-500 rounded-full"></div>
+                        <!-- Horizonte 2 -->
+                        <div class="relative pl-12 mb-12 group">
+                            <div class="absolute left-0 top-1 w-12 h-12 rounded-full bg-amber-100 border-4 border-white flex items-center justify-center shadow-md z-10 group-hover:scale-110 transition-transform">
+                                <i data-lucide="refresh-cw" class="w-5 h-5 text-amber-600"></i>
                             </div>
-                            <h4 class="text-sm font-bold text-amber-600 uppercase tracking-widest mb-1">Horizonte 2 (Mes 4-8)</h4>
-                            <h3 class="text-xl font-bold text-slate-900 mb-2">Escalado Operativo</h3>
-                            <p class="text-sm text-slate-600 bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                                Implementación de <strong>Asistente de Mantenimiento (RAG)</strong> y optimización de Stock.<br><br>
-                                <span class="text-xs font-semibold text-emerald-600">🎯 Meta:</span> Integración de datos entre departamentos. Mejora del FCR (First Contact Resolution).
-                            </p>
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                                <h4 class="text-sm font-bold text-amber-600 uppercase tracking-widest mb-1">Horizonte 2 (Mes 4-8)</h4>
+                                <h3 class="text-2xl font-bold text-slate-900 mb-3">Escalado Operativo</h3>
+                                <p class="text-slate-600 mb-4">Implementación del <strong>Asistente de Mantenimiento (RAG)</strong> y modelos de optimización de Stock.</p>
+                                <div class="bg-amber-50 p-3 rounded-xl border border-amber-100 text-sm text-amber-800 font-medium flex gap-2 items-start">
+                                    <i data-lucide="target" class="w-5 h-5 flex-shrink-0 text-amber-600"></i>
+                                    <span><strong>Meta:</strong> Integración de datos entre departamentos. Limpieza de silos. Mejora sustancial del FCR operativo.</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="relative pl-10">
-                            <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-purple-100 border-4 border-white flex items-center justify-center shadow-sm">
-                                <div class="w-3 h-3 bg-purple-600 rounded-full"></div>
+                        <!-- Horizonte 3 -->
+                        <div class="relative pl-12 group">
+                            <div class="absolute left-0 top-1 w-12 h-12 rounded-full bg-purple-100 border-4 border-white flex items-center justify-center shadow-md z-10 group-hover:scale-110 transition-transform">
+                                <i data-lucide="crown" class="w-5 h-5 text-purple-600"></i>
                             </div>
-                            <h4 class="text-sm font-bold text-purple-600 uppercase tracking-widest mb-1">Horizonte 3 (Mes 9-12)</h4>
-                            <h3 class="text-xl font-bold text-slate-900 mb-2">Transformación Sistémica</h3>
-                            <p class="text-sm text-slate-600 bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                                Despliegue de IA Multimodal para seguridad y digitalización total de cadena de valor.<br><br>
-                                <span class="text-xs font-semibold text-emerald-600">🎯 Meta:</span> Estatus de "Frontier Firm" mediante agentes autónomos supervisados.
-                            </p>
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                                <h4 class="text-sm font-bold text-purple-600 uppercase tracking-widest mb-1">Horizonte 3 (Mes 9-12)</h4>
+                                <h3 class="text-2xl font-bold text-slate-900 mb-3">Transformación Sistémica</h3>
+                                <p class="text-slate-600 mb-4">Despliegue de IA Multimodal para seguridad y digitalización total de la cadena de valor aérea.</p>
+                                <div class="bg-purple-50 p-3 rounded-xl border border-purple-100 text-sm text-purple-800 font-medium flex gap-2 items-start">
+                                    <i data-lucide="target" class="w-5 h-5 flex-shrink-0 text-purple-600"></i>
+                                    <span><strong>Meta:</strong> Estatus de "Frontier Firm" alcanzado mediante el uso de agentes autónomos bajo supervisión humana.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             `,
             s8: () => `
                 <div class="slide-up">
-                    <p class="text-slate-600 mb-6 text-lg">
-                        Identificación de barreras de implementación y asignación de responsabilidades.
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                        Mapeo de las principales barreras de adopción y asignación de responsabilidades claras a través de una <strong>Matriz RACI</strong> (Responsible, Accountable, Consulted, Informed).
                     </p>
 
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="overflow-x-auto">
                             <table class="w-full text-sm text-left glass-table">
                                 <thead class="text-xs text-slate-600 uppercase bg-slate-50 border-b border-slate-200">
                                     <tr>
-                                        <th class="px-6 py-4 font-bold">Eje</th>
-                                        <th class="px-6 py-4">Barrera</th>
-                                        <th class="px-6 py-4">Estrategia de Mitigación</th>
-                                        <th class="px-6 py-4 text-center">RACI</th>
+                                        <th class="px-6 py-5 font-bold">Eje</th>
+                                        <th class="px-6 py-5">Barrera Identificada</th>
+                                        <th class="px-6 py-5">Acción de Mitigación</th>
+                                        <th class="px-6 py-5 text-center">Asignación (RACI)</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-slate-700">
                                     <tr>
-                                        <td class="px-6 py-4 font-bold text-slate-900 bg-slate-50/50">Cultura</td>
-                                        <td class="px-6 py-4">Miedo al reemplazo laboral por IA.</td>
-                                        <td class="px-6 py-4">Enfoque Human-in-the-loop. Comunicar IA como "Copiloto".</td>
-                                        <td class="px-6 py-4 text-center whitespace-nowrap">
-                                            <span class="font-bold text-blue-600">R:</span> Dirección<br>
-                                            <span class="font-bold text-emerald-600">A:</span> CEO
+                                        <td class="px-6 py-5 font-bold text-slate-900 bg-slate-50/50">Cultura</td>
+                                        <td class="px-6 py-5 text-slate-600">Miedo del personal técnico al reemplazo laboral.</td>
+                                        <td class="px-6 py-5 text-slate-600">Comunicar IA como "Copiloto". Asegurar por escrito política de <em>Human-in-the-loop</em>.</td>
+                                        <td class="px-6 py-5 whitespace-nowrap">
+                                            <div class="flex flex-col gap-1 text-xs">
+                                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100"><strong>R:</strong> Dirección Ops</span>
+                                                <span class="bg-emerald-50 text-emerald-700 px-2 py-1 rounded border border-emerald-100"><strong>A:</strong> CEO</span>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="px-6 py-4 font-bold text-slate-900 bg-slate-50/50">Talento</td>
-                                        <td class="px-6 py-4">Brecha en habilidades y capacidades.</td>
-                                        <td class="px-6 py-4">Upskilling práctico y selección de "AI Champions" por base.</td>
-                                        <td class="px-6 py-4 text-center whitespace-nowrap">
-                                            <span class="font-bold text-blue-600">R:</span> RR.HH.<br>
-                                            <span class="font-bold text-slate-500">C:</span> IT
+                                        <td class="px-6 py-5 font-bold text-slate-900 bg-slate-50/50">Talento</td>
+                                        <td class="px-6 py-5 text-slate-600">Brecha en habilidades tecnológicas avanzadas.</td>
+                                        <td class="px-6 py-5 text-slate-600">Upskilling práctico. Selección de "AI Champions" en cada base operativa.</td>
+                                        <td class="px-6 py-5 whitespace-nowrap">
+                                            <div class="flex flex-col gap-1 text-xs">
+                                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100"><strong>R:</strong> RR.HH.</span>
+                                                <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded border border-slate-200"><strong>C:</strong> IT</span>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="px-6 py-4 font-bold text-slate-900 bg-slate-50/50">Datos</td>
-                                        <td class="px-6 py-4">Silos y baja calidad estructural.</td>
-                                        <td class="px-6 py-4">Protocolos de limpieza y estructuración antes del RAG.</td>
-                                        <td class="px-6 py-4 text-center whitespace-nowrap">
-                                            <span class="font-bold text-blue-600">R:</span> Data Sci.<br>
-                                            <span class="font-bold text-emerald-600">A:</span> CDO
+                                        <td class="px-6 py-5 font-bold text-slate-900 bg-slate-50/50">Datos</td>
+                                        <td class="px-6 py-5 text-slate-600">Silos de información y baja calidad estructural.</td>
+                                        <td class="px-6 py-5 text-slate-600">Uso de IA para limpieza y estructuración antes de alimentar los sistemas RAG.</td>
+                                        <td class="px-6 py-5 whitespace-nowrap">
+                                            <div class="flex flex-col gap-1 text-xs">
+                                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100"><strong>R:</strong> Data Team</span>
+                                                <span class="bg-emerald-50 text-emerald-700 px-2 py-1 rounded border border-emerald-100"><strong>A:</strong> CDO / CTO</span>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="px-6 py-4 font-bold text-slate-900 bg-slate-50/50">Tecnología</td>
-                                        <td class="px-6 py-4">Uso de Sistemas Legacy.</td>
-                                        <td class="px-6 py-4">Arquitecturas cloud agnósticas (capas intermedias).</td>
-                                        <td class="px-6 py-4 text-center whitespace-nowrap">
-                                            <span class="font-bold text-blue-600">R:</span> IT<br>
-                                            <span class="font-bold text-slate-500">C:</span> Prov.
+                                        <td class="px-6 py-5 font-bold text-slate-900 bg-slate-50/50">Tecnología</td>
+                                        <td class="px-6 py-5 text-slate-600">Dependencia de Sistemas Legacy (sin APIs).</td>
+                                        <td class="px-6 py-5 text-slate-600">Crear Arquitecturas Cloud agnósticas (capas intermedias que conecten el legado).</td>
+                                        <td class="px-6 py-5 whitespace-nowrap">
+                                            <div class="flex flex-col gap-1 text-xs">
+                                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100"><strong>R:</strong> IT</span>
+                                                <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded border border-slate-200"><strong>C:</strong> Proveedores</span>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -477,35 +569,52 @@
             `,
             s9: () => `
                 <div class="slide-up">
-                    <div class="bg-blue-600 rounded-3xl p-8 lg:p-10 text-white shadow-xl mb-10 relative overflow-hidden">
-                        <div class="absolute -right-10 -bottom-10 opacity-10">
-                            <i data-lucide="shield-check" class="w-64 h-64"></i>
+                    <div class="bg-gradient-to-br from-blue-700 to-aero-900 rounded-3xl p-8 lg:p-12 text-white shadow-xl mb-10 relative overflow-hidden">
+                        <!-- Icono Fondo -->
+                        <div class="absolute -right-10 -top-10 opacity-10">
+                            <i data-lucide="shield-check" class="w-80 h-80"></i>
                         </div>
+                        
                         <div class="relative z-10">
-                            <span class="bg-blue-800 text-blue-100 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">9. Recomendación Ejecutiva Final</span>
-                            <h2 class="text-3xl lg:text-4xl font-black mb-4 leading-tight">Iniciar Gestión de Adiestramientos</h2>
-                            <p class="text-blue-100 text-lg mb-8 max-w-3xl">La inacción conlleva un riesgo inaceptable: la inmovilización de nuestra capacidad operativa por vencimiento de licencias (AOG).</p>
+                            <span class="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-6 inline-block border border-white/30">
+                                9. Recomendación Ejecutiva Final
+                            </span>
+                            
+                            <h2 class="text-4xl font-black mb-6 leading-tight max-w-2xl">
+                                Iniciar Gestión Automatizada de Adiestramientos
+                            </h2>
+                            
+                            <p class="text-blue-100 text-lg mb-10 max-w-3xl leading-relaxed">
+                                Tras un análisis exhaustivo de la flota y su madurez operativa, se establece este proyecto como la <strong>Prioridad Número Uno</strong>. La inacción en este frente conlleva un riesgo directo e inaceptable: la inmovilización de nuestra capacidad operativa por licencias vencidas.
+                            </p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                                    <div class="flex items-center gap-3 mb-2">
-                                        <i data-lucide="piggy-bank" class="text-emerald-400 w-6 h-6"></i>
+                                <!-- Tarjeta 1: Ahorro -->
+                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-colors">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="bg-emerald-500/20 p-2 rounded-lg"><i data-lucide="trending-up" class="text-emerald-400 w-6 h-6"></i></div>
                                         <h3 class="font-bold text-xl">75.000€ Ahorro Anual</h3>
                                     </div>
-                                    <p class="text-sm text-blue-100 leading-relaxed">Retorno (ROI) estimado por eficiencias generadas. Actuará como motor financiero y de confianza para el resto de la transformación.</p>
+                                    <p class="text-sm text-blue-100/90 leading-relaxed">
+                                        Implementación con inversión controlada que actuará como motor financiero. Retorno (ROI) estimado exclusivamente por la eficiencia generada en la gestión de procesos.
+                                    </p>
                                 </div>
-                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                                    <div class="flex items-center gap-3 mb-2">
-                                        <i data-lucide="scale" class="text-amber-300 w-6 h-6"></i>
-                                        <h3 class="font-bold text-xl">EU AI Act (High Risk)</h3>
+                                
+                                <!-- Tarjeta 2: Riesgo -->
+                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-colors">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="bg-amber-500/20 p-2 rounded-lg"><i data-lucide="scale" class="text-amber-400 w-6 h-6"></i></div>
+                                        <h3 class="font-bold text-xl">Cumplimiento (EU AI Act)</h3>
                                     </div>
-                                    <p class="text-sm text-blue-100 leading-relaxed">Exige controles rigurosos y mantener un esquema <strong class="text-white">"Human-in-the-Loop"</strong> donde el Director Técnico es el validador final.</p>
+                                    <p class="text-sm text-blue-100/90 leading-relaxed">
+                                        Clasificado como "Riesgo Elevado", exige controles rigurosos. Se mantendrá el esquema <strong class="text-white">"Human-in-the-Loop"</strong> donde el Director Técnico es el validador final irremplazable.
+                                    </p>
                                 </div>
                             </div>
                             
-                            <div class="mt-8 pt-6 border-t border-white/20">
-                                <p class="text-lg font-medium text-white italic">
-                                    "El éxito de este proyecto piloto es la clave para desbloquear el futuro de la aerolínea."
+                            <div class="mt-10 pt-8 border-t border-white/20">
+                                <p class="text-xl font-medium text-white italic leading-relaxed border-l-4 border-blue-400 pl-6">
+                                    "El éxito de este proyecto piloto es la clave para desbloquear el futuro de la aerolínea; el riesgo de no actuar es la inmovilización de nuestra capacidad operativa."
                                 </p>
                             </div>
                         </div>
@@ -514,10 +623,10 @@
             `
         };
 
-        // 3. Controlador de la App (JavaScript Vainilla)
+        // 3. Controlador de la App
         class DashboardController {
             constructor() {
-                this.activeSection = 's1';
+                this.activeSection = 'intro';
                 this.navContainer = document.getElementById('navigation-menu');
                 this.contentContainer = document.getElementById('content-area');
                 this.titleElement = document.getElementById('section-title');
@@ -534,14 +643,13 @@
                 this.navContainer.innerHTML = appData.sections.map(sec => `
                     <button 
                         data-id="${sec.id}"
-                        class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left text-sm ${this.activeSection === sec.id ? 'active' : 'text-slate-500 hover:bg-slate-50'}"
+                        class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-[13px] ${this.activeSection === sec.id ? 'active' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}"
                     >
                         <i data-lucide="${sec.icon}" class="w-4 h-4 flex-shrink-0 ${this.activeSection === sec.id ? 'text-blue-600' : 'text-slate-400'}"></i>
-                        <span class="truncate">${sec.title}</span>
+                        <span class="truncate leading-tight">${sec.title}</span>
                     </button>
                 `).join('');
 
-                // Asignar Event Listeners
                 this.navContainer.querySelectorAll('.nav-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         const id = e.currentTarget.getAttribute('data-id');
@@ -552,26 +660,22 @@
 
             loadSection(id) {
                 this.activeSection = id;
-                
-                // Actualizar UI de Navegación
                 this.renderNav();
                 
-                // Actualizar Título
                 const sectionData = appData.sections.find(s => s.id === id);
                 this.titleElement.innerText = sectionData.title;
 
-                // Actualizar Contenido
                 this.contentContainer.innerHTML = Views[id]();
                 
-                // Refrescar Iconos
+                // Inicializar iconos
                 lucide.createIcons();
                 
-                // Scroll top smooth
+                // Scroll arriba
                 document.querySelector('main').scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
-        // 4. Inicializar al cargar el DOM
+        // 4. Iniciar al cargar
         document.addEventListener('DOMContentLoaded', () => {
             new DashboardController();
         });
